@@ -7,16 +7,20 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #0F1117; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; color: #E8EAF0; }
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #1A1D2A; }
+    ::-webkit-scrollbar-thumb { background: #2E3347; border-radius: 3px; }
   </style>
 </head>
 <body>
   <div id="root"></div>
   <script type="text/babel">
-const { useState, useRef, useEffect } = React;
+const { useState, useEffect } = React;
 
 const C = {
   brand: "#5B47B8", brandDim: "#3B2F7A",
@@ -31,15 +35,20 @@ const C = {
   weekly: "#A78BFA",
   bg: "#0F1117", surface: "#1A1D2A", surfaceLight: "#252838",
   border: "#2E3347", text: "#E8EAF0", muted: "#8B90A8", tag: "#1E2235",
-  gold: "#F59E0B",
+  gold: "#F59E0B", warn: "#F97316",
 };
 
-// ─── DATA ────────────────────────────────────────────────────────────────────
+const LAST_UPDATED = "June 25, 2026";
+
+// ─── DATA ─────────────────────────────────────────────────────────────────────
 
 const stageData = [
   {
     id: "brand", label: "Brand Awareness", sublabel: "Entry Point",
     color: C.brand, colorLight: C.brand, icon: "📡",
+    tldr: "Plant the brand in memory before the buying window opens. Reach HR pros and business leaders at scale across every major channel.",
+    owner: "Brand & Creative",
+    trigger: "1–2 brand impressions logged in ZoomInfo → account enters Tier 3 Aware",
     audience: "HR Pros, HR Directors/VPs/CHROs, C-Suite + Finance Leaders (2–2000 EE)",
     goal: "Drive 3-pt increase in consideration nationally (41% → 44%)",
     kpis: ["Reach", "Frequency", "Engagement", "Incremental SAOs & MRR"],
@@ -59,11 +68,14 @@ const stageData = [
       "ToF landing page: powerfully-easy-hr",
     ],
     content: [],
-    note: "Brand campaign runs Jan–Dec H1 '26. Serves as journey entry point — not deeply mapped.",
+    note: "Brand campaign runs H2 '26 across all reach channels. Serves as journey entry point — not deeply mapped.",
   },
   {
     id: "midfunnel", label: "Mid-Funnel Paid Social", sublabel: "Prospecting",
     color: C.mid, colorLight: C.mid, icon: "🎯",
+    tldr: "Convert brand awareness into active engagement. Serve Themed Content Pack creative to Broad and CXO audiences across paid social simultaneously with StackAdapt.",
+    owner: "Paid Social",
+    trigger: "Content download, LPV, quiz completion, or event registration → engagement signal elevates ZoomInfo tier",
     audience: "Prospecting HR Pros + Buyer Personas (Broad Funnel) / CXO Funnel (parallel track)",
     goal: "Build engagement, drive content downloads, LPVs, quiz completions, followers",
     kpis: ["Cost per content download","Cost per LPV","Cost per quiz completion","Cost per follower","Event registrations","Incremental SAOs & MRR"],
@@ -81,18 +93,18 @@ const stageData = [
       { type: "Event Registration", objective: "Registration Signups", channels: "Meta & LinkedIn" },
     ],
     content: [
-      { title: "20 Exit Interview Questions", category: "HIRE", type: "Template", intent: "Engage" },
-      { title: "Bad Company Culture: 10 Red Flags and How to Fix It", category: "CULT", type: "PDF", intent: "Attract" },
-      { title: "ChatGPT Prompts for Easier HR", category: "GEN", type: "PDF", intent: "Engage" },
-      { title: "How to Measure Employee Engagement", category: "PERF", type: "Resource", intent: "Engage" },
-      { title: "Employee Handbook Masterclass: What to Refresh for 2026", category: "CULT", type: "OD Webinar", intent: "Engage" },
-      { title: "Turnover Trouble: The Top 3 Reasons Employees Leave", category: "CULT", type: "OD Webinar", intent: "Engage" },
-      { title: "HR Answers YouTube Shorts", category: "GEN", type: "YouTube", intent: "Engage" },
-      { title: "Practical Ways to Manage Stress and Burnout as an HR Pro", category: "CULT", type: "OD Webinar", intent: "Engage" },
-      { title: "Understanding the AI Confidence Illusion", category: "AI", type: "OD Webinar", intent: "Engage" },
-      { title: "How HR Teams Can Earn Employees' Trust", category: "CULT", type: "OD Webinar", intent: "Engage" },
-      { title: "How to Identify—and Correct—Bad Boss Behaviors in the Workplace", category: "CULT", type: "OD Webinar", intent: "Engage" },
-      { title: "Is Your Workplace Change Resistant? How to Get Buy-In", category: "CULT", type: "OD Webinar", intent: "Engage" },
+      { title: "20 Exit Interview Questions", category: "HIRE", type: "Template", intent: "Engage", status: "Live" },
+      { title: "Bad Company Culture: 10 Red Flags and How to Fix It", category: "CULT", type: "PDF", intent: "Attract", status: "Live" },
+      { title: "ChatGPT Prompts for Easier HR", category: "GEN", type: "PDF", intent: "Engage", status: "Live" },
+      { title: "How to Measure Employee Engagement", category: "PERF", type: "Resource", intent: "Engage", status: "Live" },
+      { title: "Employee Handbook Masterclass: What to Refresh for 2026", category: "CULT", type: "OD Webinar", intent: "Engage", status: "Live" },
+      { title: "Turnover Trouble: The Top 3 Reasons Employees Leave", category: "CULT", type: "OD Webinar", intent: "Engage", status: "Live" },
+      { title: "HR Answers YouTube Shorts", category: "GEN", type: "YouTube", intent: "Engage", status: "Live" },
+      { title: "Practical Ways to Manage Stress and Burnout as an HR Pro", category: "CULT", type: "OD Webinar", intent: "Engage", status: "Live" },
+      { title: "Understanding the AI Confidence Illusion", category: "AI", type: "OD Webinar", intent: "Engage", status: "Live" },
+      { title: "How HR Teams Can Earn Employees' Trust", category: "CULT", type: "OD Webinar", intent: "Engage", status: "Live" },
+      { title: "How to Identify—and Correct—Bad Boss Behaviors in the Workplace", category: "CULT", type: "OD Webinar", intent: "Engage", status: "Live" },
+      { title: "Is Your Workplace Change Resistant? How to Get Buy-In", category: "CULT", type: "OD Webinar", intent: "Engage", status: "Live" },
     ],
     note: "Broad Funnel and CXO Funnel run in parallel. CXO: ungated content, blog posts, LI followers, event registration. Themed Content Packs layer across both tracks.",
     packs: [
@@ -104,6 +116,9 @@ const stageData = [
   {
     id: "stackadapt", label: "StackAdapt", sublabel: "Programmatic Display",
     color: C.sa, colorLight: C.sa, icon: "📺",
+    tldr: "Programmatic broadcast layer running simultaneously with paid social. Serves the same Themed Content Pack creative across display and native web inventory to maintain ambient presence between social sessions.",
+    owner: "Demand Gen / Paid Social",
+    trigger: "Site visit or content download from StackAdapt placement → contributes to ZoomInfo engagement score",
     audience: "Broad and CXO buyer personas via programmatic targeting",
     goal: "Distribute Themed Content Pack assets programmatically to fuel awareness and drive traffic into mid-funnel content flows",
     kpis: ["Reach","Impressions","CTR","Cost per Landing Page View","Content Downloads"],
@@ -122,11 +137,14 @@ const stageData = [
       { name: "Open Enrollment", icon: "📋", color: "#14A88D", timing: "Seasonal — late Q3 / early Q4", description: "Seasonal content timed to open enrollment planning cycles. Activates toward end of Q3 and carries into early Q4." },
     ],
     content: [],
-    note: "StackAdapt serves as the programmatic distribution engine for Themed Content Packs — the packs fuel what runs here, and traffic flows into the Broad and CXO mid-funnel tracks.",
+    note: "StackAdapt runs off manually uploaded SFDC account lists — no live ZoomInfo sync. Audience overlap with paid social is intentional but not technically unified. Solving the cross-channel sync gap is the top infrastructure priority.",
   },
   {
     id: "tiers", label: "Engagement Scoring", sublabel: "Tier 3 Sub-Stages",
     color: C.tier2, colorLight: C.tier2, icon: "📊",
+    tldr: "ZoomInfo-tracked scoring model that determines how aggressively to pursue an account. Three sub-tiers gate content intensity and BDR handoff. 60-day inactivity causes regression.",
+    owner: "Demand Gen / Marketing Ops",
+    trigger: "Tier 3 Meaningful Engagement reached → BDR routing evaluation begins; account may graduate to Tier 2",
     audience: "All accounts receiving mid-funnel impressions and signals — tracked primarily via ZoomInfo",
     goal: "Score accounts by engagement signal strength and route them to the appropriate retargeting intensity and BDR handoff threshold",
     kpis: ["Accounts in each tier","Signal velocity","Tier progression rate","BDR handoff rate from ME","60-day decay / regression rate"],
@@ -144,9 +162,7 @@ const stageData = [
     ],
     tiers: [
       {
-        name: "Tier 3 — Aware",
-        color: C.tier1,
-        icon: "👁",
+        name: "Tier 3 — Aware", color: C.tier1, icon: "👁",
         threshold: "1–2 brand impressions",
         decay: "60 days — drops out of sub-tier",
         channels: "LinkedIn, Meta, ZoomInfo Display, StackAdapt (manual SFDC lists)",
@@ -155,9 +171,7 @@ const stageData = [
         note: "Broadest and most passive stage. Primary objective is building the memory link between BambooHR and the buying situation (CEP).",
       },
       {
-        name: "Tier 3 — Initial Engagement",
-        color: C.tier2,
-        icon: "🖱",
+        name: "Tier 3 — Initial Engagement", color: C.tier2, icon: "🖱",
         threshold: "First active digital signal: ad click, email click, or high-value page visit (pricing, demo, feature pages)",
         decay: "60 days — regresses to Aware",
         channels: "LinkedIn, ZoomInfo Display, StackAdapt (more targeted placements)",
@@ -166,9 +180,7 @@ const stageData = [
         note: "First indication someone has moved from passive awareness into curiosity. Multi-signal intent not yet demonstrated.",
       },
       {
-        name: "Tier 3 — Meaningful Engagement",
-        color: C.tier3,
-        icon: "🔥",
+        name: "Tier 3 — Meaningful Engagement", color: C.tier3, icon: "🔥",
         threshold: "3+ site visits in 30 days across 2+ contacts OR 2+ high-intent page visits OR 2 cross-channel signals in 30 days OR demo request / live chat",
         decay: "60 days — regresses to IE",
         channels: "ZoomInfo (primary), LinkedIn",
@@ -183,6 +195,9 @@ const stageData = [
   {
     id: "retargeting", label: "Paid Social Retargeting", sublabel: "Warm Audience Re-engagement",
     color: C.rtg, colorLight: C.rtg, icon: "🔄",
+    tldr: "Re-engage warm audiences who've touched the brand. Escalate from reach-based presence to direct conversion offers — demo requests, incentives, and conversation ads — as intent signals strengthen.",
+    owner: "Paid Social",
+    trigger: "Form fill, demo request, or high-intent conversion → enters Email Nurture and/or BDR sequence",
     audience: "Retargeting — Brand & DG ToF/MoF audiences",
     goal: "Re-engage warm audiences with content and conversion offers",
     kpis: ["MQL1s","SAOs","MQL1→SAO CVR","SAO→CW","MRR"],
@@ -208,6 +223,9 @@ const stageData = [
   {
     id: "email", label: "Email Nurture", sublabel: "Post-Capture Sequence",
     color: C.email, colorLight: C.email, icon: "✉️",
+    tldr: "Personalized sequences that match the lead's source, segment, and content theme. Routes every captured contact toward MQL1 through the most relevant track — welcome, contextual, or post-MQL.",
+    owner: "Demand Gen / Marketing Ops",
+    trigger: "MQL1 threshold hit → Post-MQL1 Nurture or BDR handoff. Unsubscribe → removed. Sequence exhausted → Weekly Sends.",
     audience: "All captured leads by source (paid media, CS, general, segment-specific)",
     goal: "Move contacts from MQL1 → SAO → Closed Won via relevant content sequences",
     kpis: ["MQL1→SAO CVR","SAO→CW","Closed Won MRR","Email engagement"],
@@ -242,8 +260,9 @@ const stageData = [
 ];
 
 const catColors = { HIRE:"#7C3AED", CULT:"#DC2626", GEN:"#0891B2", PERF:"#059669", AI:"#EC4899" };
+const statusColors = { "Live":"#22C55E", "In Review":"#F59E0B", "Planned":"#8B90A8" };
 
-// ─── SMALL COMPONENTS ────────────────────────────────────────────────────────
+// ─── SMALL COMPONENTS ─────────────────────────────────────────────────────────
 
 function Tag({ label, color }) {
   return <span style={{ display:"inline-block", padding:"2px 8px", borderRadius:4, fontSize:11, fontWeight:600, background:color+"22", color, border:`1px solid ${color}44`, marginRight:4, marginBottom:4 }}>{label}</span>;
@@ -259,37 +278,59 @@ function Sec({ title, color, children }) {
     </div>
   );
 }
+function TldrCard({ stage }) {
+  return (
+    <div style={{ background:`linear-gradient(135deg, ${stage.color}18, ${stage.color}08)`, border:`1px solid ${stage.color}33`, borderRadius:12, padding:"14px 16px", marginBottom:14 }}>
+      <div style={{ display:"flex", alignItems:"flex-start", gap:10 }}>
+        <div style={{ flex:1 }}>
+          <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:6, flexWrap:"wrap" }}>
+            <span style={{ fontSize:11, fontWeight:700, color:stage.color, textTransform:"uppercase", letterSpacing:"0.08em" }}>TL;DR</span>
+            {stage.owner && <span style={{ fontSize:11, color:C.muted, background:C.tag, padding:"1px 8px", borderRadius:10, border:`1px solid ${C.border}` }}>Owner: {stage.owner}</span>}
+          </div>
+          <div style={{ fontSize:13, color:C.text, lineHeight:1.65 }}>{stage.tldr}</div>
+        </div>
+      </div>
+      {stage.trigger && (
+        <div style={{ marginTop:10, paddingTop:10, borderTop:`1px solid ${stage.color}22`, display:"flex", gap:8, alignItems:"flex-start" }}>
+          <span style={{ fontSize:12, flexShrink:0 }}>⚡</span>
+          <div style={{ fontSize:12, color:C.muted, lineHeight:1.5 }}>
+            <span style={{ color:stage.color, fontWeight:700 }}>Next trigger: </span>{stage.trigger}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
-// ─── WEB MAP SVG ─────────────────────────────────────────────────────────────
+// ─── WEB MAP SVG ──────────────────────────────────────────────────────────────
 
 function WebMap({ onNodeClick }) {
   const [hovered, setHovered] = useState(null);
 
-  // 8 nodes — one per meaningful stage. All detail lives in Stage Detail panels.
   const nodes = [
-    { id:"brand",   x:390, y:58,  w:200, h:52, label:"Brand Awareness",      sub:"TV · CTV · YouTube · LinkedIn · Meta · Reddit · Audio",  color:C.brand  },
-    { id:"tiers",   x:390, y:160, w:320, h:52, label:"Engagement Scoring",   sub:"Tier 3: Aware  →  Initial Engagement  →  Meaningful Engagement", color:C.tier2 },
-    { id:"paidsoc", x:150, y:266, w:172, h:48, label:"Paid Social",          sub:"Meta · LinkedIn · Reddit · TikTok",                      color:C.mid    },
-    { id:"stackadapt",x:390,y:266,w:164, h:48, label:"StackAdapt",           sub:"Programmatic Display",                                   color:C.sa     },
-    { id:"email",   x:620, y:266, w:164, h:48, label:"Email Nurture",        sub:"Welcome · Contextual · Post-MQL1",                       color:C.email  },
-    { id:"midfunnel",x:270,y:372, w:232, h:52, label:"Mid-Funnel Engagement",sub:"Broad Funnel  ·  CXO Funnel  ·  Themed Content Packs",   color:C.mid    },
-    { id:"retargeting",x:390,y:478,w:220,h:52, label:"Retargeting",          sub:"Omnipresent · Conversation Ads · Offer Ads",             color:C.rtg    },
-    { id:"won",     x:390, y:578, w:200, h:52, label:"Closed Won 🎉",        sub:"MQL1 → SAO → New Customer",                             color:C.win    },
+    { id:"brand",      x:390, y:58,  w:200, h:52, label:"Brand Awareness",       sub:"TV · CTV · YouTube · LinkedIn · Meta · Reddit · Audio", color:C.brand },
+    { id:"tiers",      x:390, y:160, w:320, h:52, label:"Engagement Scoring",    sub:"Tier 3: Aware  →  Initial Engagement  →  Meaningful Engagement", color:C.tier2 },
+    { id:"paidsoc",    x:150, y:266, w:172, h:48, label:"Paid Social",           sub:"Meta · LinkedIn · Reddit · TikTok",                     color:C.mid },
+    { id:"stackadapt", x:390, y:266, w:164, h:48, label:"StackAdapt",            sub:"Programmatic Display",                                  color:C.sa },
+    { id:"email",      x:620, y:266, w:164, h:48, label:"Email Nurture",         sub:"Welcome · Contextual · Post-MQL1",                      color:C.email },
+    { id:"midfunnel",  x:270, y:372, w:232, h:52, label:"Mid-Funnel Engagement", sub:"Broad Funnel  ·  CXO Funnel  ·  Themed Content Packs",  color:C.mid },
+    { id:"retargeting",x:390, y:478, w:220, h:52, label:"Retargeting",           sub:"Omnipresent · Conversation Ads · Offer Ads",            color:C.rtg },
+    { id:"won",        x:390, y:578, w:200, h:52, label:"Closed Won 🎉",         sub:"MQL1 → SAO → New Customer",                            color:C.win },
   ];
 
   const edges = [
-    { from:"brand",      to:"tiers",      color:C.tier2, dash:false },
-    { from:"tiers",      to:"paidsoc",    color:C.mid,   dash:false },
-    { from:"tiers",      to:"stackadapt", color:C.sa,    dash:false },
-    { from:"tiers",      to:"email",      color:C.email, dash:false },
-    { from:"paidsoc",    to:"midfunnel",  color:C.mid,   dash:false },
-    { from:"stackadapt", to:"midfunnel",  color:C.mid,   dash:false, opacity:0.5 },
-    { from:"email",      to:"won",        color:C.email, dash:false, opacity:0.5 },
-    { from:"midfunnel",  to:"retargeting",color:C.rtg,   dash:false },
-    { from:"midfunnel",  to:"email",      color:C.email, dash:true,  opacity:0.5 },
-    { from:"retargeting",to:"won",        color:C.win,   dash:false },
-    { from:"retargeting",to:"email",      color:C.email, dash:true,  opacity:0.5 },
-    { from:"won",        to:"brand",      color:C.gold,  dash:true,  opacity:0.22, curve:true },
+    { from:"brand",      to:"tiers",       color:C.tier2, dash:false },
+    { from:"tiers",      to:"paidsoc",     color:C.mid,   dash:false },
+    { from:"tiers",      to:"stackadapt",  color:C.sa,    dash:false },
+    { from:"tiers",      to:"email",       color:C.email, dash:false },
+    { from:"paidsoc",    to:"midfunnel",   color:C.mid,   dash:false },
+    { from:"stackadapt", to:"midfunnel",   color:C.mid,   dash:false, opacity:0.5 },
+    { from:"email",      to:"won",         color:C.email, dash:false, opacity:0.5 },
+    { from:"midfunnel",  to:"retargeting", color:C.rtg,   dash:false },
+    { from:"midfunnel",  to:"email",       color:C.email, dash:true,  opacity:0.5 },
+    { from:"retargeting",to:"won",         color:C.win,   dash:false },
+    { from:"retargeting",to:"email",       color:C.email, dash:true,  opacity:0.5 },
+    { from:"won",        to:"brand",       color:C.gold,  dash:true,  opacity:0.22, curve:true },
   ];
 
   const nodeMap = {};
@@ -299,14 +340,12 @@ function WebMap({ onNodeClick }) {
     const a = nodeMap[e.from], b = nodeMap[e.to];
     if (!a || !b) return "";
     if (e.curve) {
-      const ax = a.x, ay = a.y - a.h / 2;
-      const bx = b.x, by = b.y + b.h / 2;
+      const ax = a.x, ay = a.y - a.h/2, bx = b.x, by = b.y + b.h/2;
       return `M${ax},${ay} C${ax-260},${ay-50} ${bx-260},${by+50} ${bx},${by}`;
     }
-    const fromY = a.y + a.h / 2, toY = b.y - b.h / 2;
-    const fromX = a.x, toX = b.x;
-    const mx = (fromX + toX) / 2, my = (fromY + toY) / 2;
-    const offset = Math.abs(toX - fromX) > 60 ? (toX > fromX ? 22 : -22) : 0;
+    const fromY = a.y + a.h/2, toY = b.y - b.h/2, fromX = a.x, toX = b.x;
+    const mx = (fromX+toX)/2, my = (fromY+toY)/2;
+    const offset = Math.abs(toX-fromX) > 60 ? (toX > fromX ? 22 : -22) : 0;
     return `M${fromX},${fromY} Q${mx+offset},${my} ${toX},${toY}`;
   }
 
@@ -335,36 +374,27 @@ function WebMap({ onNodeClick }) {
           <polygon points="0 0, 6 3, 0 6" fill={C.muted} opacity="0.6"/>
         </marker>
       </defs>
-
       <rect width={VB_W} height={VB_H} fill={C.bg} rx="14"/>
-
-      {/* Swim lane bands */}
       {[
-        { y:24,  h:80,  label:"BRAND AWARENESS",          color:C.brand  },
-        { y:114, h:80,  label:"ENGAGEMENT SCORING",        color:C.tier2  },
-        { y:204, h:80,  label:"CHANNEL ENTRY  (CONCURRENT)", color:C.sa   },
-        { y:294, h:80,  label:"MID-FUNNEL ENGAGEMENT",     color:C.mid    },
-        { y:384, h:154, label:"CONVERSION",                color:C.win    },
+        { y:24,  h:80,  label:"BRAND AWARENESS",           color:C.brand },
+        { y:114, h:80,  label:"ENGAGEMENT SCORING",         color:C.tier2 },
+        { y:204, h:80,  label:"CHANNEL ENTRY  (CONCURRENT)",color:C.sa    },
+        { y:294, h:80,  label:"MID-FUNNEL ENGAGEMENT",      color:C.mid   },
+        { y:384, h:154, label:"CONVERSION",                 color:C.win   },
       ].map(lane => (
         <g key={lane.label}>
           <rect x="8" y={lane.y} width={VB_W-16} height={lane.h} rx="8"
-            fill={lane.color} fillOpacity="0.04"
-            stroke={lane.color} strokeOpacity="0.12" strokeWidth="1"/>
+            fill={lane.color} fillOpacity="0.04" stroke={lane.color} strokeOpacity="0.12" strokeWidth="1"/>
           <text x="20" y={lane.y+14} fontSize="8.5" fontWeight="800"
-            fill={lane.color} fillOpacity="0.5" letterSpacing="1.8"
-            fontFamily="'Inter', sans-serif">{lane.label}</text>
+            fill={lane.color} fillOpacity="0.5" letterSpacing="1.8" fontFamily="'Inter', sans-serif">{lane.label}</text>
         </g>
       ))}
-
-      {/* Edges */}
       {edges.map((e, i) => (
         <path key={i} d={getPath(e)} fill="none"
           stroke={e.color} strokeOpacity={e.opacity ?? 0.55}
           strokeWidth={2} strokeDasharray={e.dash ? "5 4" : undefined}
           markerEnd="url(#arr)"/>
       ))}
-
-      {/* Nodes */}
       {nodes.map(n => {
         const isHov = hovered === n.id;
         const stageId = nodeToStage[n.id];
@@ -372,48 +402,39 @@ function WebMap({ onNodeClick }) {
         const hw = n.w/2, hh = n.h/2, rx = Math.min(hh, 14);
         return (
           <g key={n.id} style={{ cursor: clickable ? "pointer" : "default" }}
-            onMouseEnter={() => setHovered(n.id)}
-            onMouseLeave={() => setHovered(null)}
+            onMouseEnter={() => setHovered(n.id)} onMouseLeave={() => setHovered(null)}
             onClick={() => clickable && onNodeClick(stageId)}>
-            {isHov && (
-              <rect x={n.x-hw-8} y={n.y-hh-8} width={n.w+16} height={n.h+16} rx={rx+8}
-                fill={n.color} fillOpacity="0.2" filter="url(#glow)"/>
-            )}
+            {isHov && <rect x={n.x-hw-8} y={n.y-hh-8} width={n.w+16} height={n.h+16} rx={rx+8}
+              fill={n.color} fillOpacity="0.2" filter="url(#glow)"/>}
             <rect x={n.x-hw} y={n.y-hh} width={n.w} height={n.h} rx={rx}
               fill={`url(#g_${n.id})`} stroke={n.color}
               strokeWidth={isHov ? 2.5 : 1.6} strokeOpacity={isHov ? 1 : 0.7}/>
-            <text x={n.x} y={n.y-5} textAnchor="middle"
-              fontSize={13} fontWeight="700"
+            <text x={n.x} y={n.y-5} textAnchor="middle" fontSize={13} fontWeight="700"
               fill={C.text} fontFamily="'Inter', -apple-system, sans-serif">{n.label}</text>
-            <text x={n.x} y={n.y+11} textAnchor="middle"
-              fontSize={9} fill={C.muted}
-              fontFamily="'Inter', -apple-system, sans-serif">{n.sub}</text>
+            <text x={n.x} y={n.y+11} textAnchor="middle" fontSize={9}
+              fill={C.muted} fontFamily="'Inter', -apple-system, sans-serif">{n.sub}</text>
           </g>
         );
       })}
-
-      {/* Tap hint */}
-      <text x={VB_W/2} y={VB_H-22} textAnchor="middle" fontSize="9.5"
-        fill={C.muted} fontFamily="'Inter', sans-serif">
+      <text x={VB_W/2} y={VB_H-22} textAnchor="middle" fontSize="9.5" fill={C.muted} fontFamily="'Inter', sans-serif">
         Tap any node to explore stage details  ·  Dashed lines = concurrent flows  ·  Gold = retention loop
       </text>
     </svg>
   );
 }
 
-// ─── STAGE DETAIL ────────────────────────────────────────────────────────────
+// ─── STAGE DETAIL ─────────────────────────────────────────────────────────────
 
 function StageDetail({ stage }) {
   const [tab, setTab] = useState("overview");
   const tabs = [
-    { id:"overview", label:"Overview" },
-    { id:"channels", label:"Channels & Tactics" },
-    ...(stage.content?.length > 0 ? [{ id:"content", label:"Content" }] : []),
-    ...(stage.packs?.length > 0 ? [{ id:"packs", label:"Content Packs" }] : []),
-    ...(stage.id === "tiers" ? [{ id:"tiers", label:"Sub-Stages" }] : []),
-    ...(stage.id === "email" ? [{ id:"nurtures", label:"Nurture Tracks" }] : []),
+    { id:"overview",  label:"Overview" },
+    { id:"channels",  label:"Channels & Tactics" },
+    ...(stage.content?.length > 0   ? [{ id:"content",  label:"Content" }]        : []),
+    ...(stage.packs?.length > 0     ? [{ id:"packs",    label:"Content Packs" }]  : []),
+    ...(stage.id === "tiers"        ? [{ id:"tiers",    label:"Sub-Stages" }]     : []),
+    ...(stage.id === "email"        ? [{ id:"nurtures", label:"Nurture Tracks" }] : []),
   ];
-  // reset tab when stage changes
   useEffect(() => setTab("overview"), [stage.id]);
 
   return (
@@ -427,15 +448,16 @@ function StageDetail({ stage }) {
           </div>
         </div>
       </div>
-      <div style={{ display:"flex", borderBottom:`1px solid ${C.border}`, padding:"0 16px", background:C.surface }}>
+      <div style={{ display:"flex", borderBottom:`1px solid ${C.border}`, padding:"0 16px", background:C.surface, overflowX:"auto" }}>
         {tabs.map(t => (
-          <button key={t.id} onClick={() => setTab(t.id)} style={{ background:"none", border:"none", borderBottom:`2px solid ${tab===t.id ? stage.color : "transparent"}`, color:tab===t.id ? stage.colorLight : C.muted, fontSize:12, fontWeight:600, padding:"11px 12px 9px", cursor:"pointer" }}>
+          <button key={t.id} onClick={() => setTab(t.id)} style={{ background:"none", border:"none", borderBottom:`2px solid ${tab===t.id ? stage.color : "transparent"}`, color:tab===t.id ? stage.colorLight : C.muted, fontSize:12, fontWeight:600, padding:"11px 12px 9px", cursor:"pointer", whiteSpace:"nowrap" }}>
             {t.label}
           </button>
         ))}
       </div>
       <div style={{ padding:"16px 16px 20px" }}>
         {tab === "overview" && <>
+          <TldrCard stage={stage}/>
           <Sec title="Audience" color={stage.color}><div style={{ fontSize:13, color:C.text, lineHeight:1.6 }}>{stage.audience}</div></Sec>
           <Sec title="Goal" color={stage.color}><div style={{ fontSize:13, color:C.text, lineHeight:1.6 }}>{stage.goal}</div></Sec>
           <Sec title="KPIs" color={stage.color}><div style={{ display:"flex", flexWrap:"wrap" }}>{stage.kpis.map(k => <Pill key={k} label={k}/>)}</div></Sec>
@@ -463,13 +485,24 @@ function StageDetail({ stage }) {
         </>}
 
         {tab === "content" && stage.content?.length > 0 && (
-          <Sec title={`Content Assets (${stage.content.length})`} color={stage.color}>
+          <div>
+            <div style={{ display:"flex", gap:6, flexWrap:"wrap", marginBottom:12 }}>
+              {Object.entries(statusColors).map(([s, c]) => (
+                <span key={s} style={{ display:"flex", alignItems:"center", gap:5, fontSize:11, color:C.muted }}>
+                  <span style={{ width:8, height:8, borderRadius:"50%", background:c, display:"inline-block" }}/>{s}
+                </span>
+              ))}
+            </div>
             {stage.content.map(item => {
               const cc = catColors[item.category] || "#888";
+              const sc = statusColors[item.status] || C.muted;
               return (
                 <div key={item.title} style={{ display:"flex", alignItems:"flex-start", gap:8, padding:"8px 10px", background:C.tag, borderRadius:8, marginBottom:6, borderLeft:`3px solid ${cc}` }}>
                   <div style={{ flex:1 }}>
-                    <div style={{ fontSize:13, color:C.text, fontWeight:500 }}>{item.title}</div>
+                    <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", gap:8 }}>
+                      <div style={{ fontSize:13, color:C.text, fontWeight:500 }}>{item.title}</div>
+                      {item.status && <span style={{ fontSize:10, fontWeight:700, color:sc, background:sc+"18", border:`1px solid ${sc}44`, borderRadius:10, padding:"1px 7px", whiteSpace:"nowrap", flexShrink:0 }}>{item.status}</span>}
+                    </div>
                     <div style={{ marginTop:4 }}><Tag label={item.category} color={cc}/><Tag label={item.type} color="#888"/><Tag label={item.intent} color="#666"/></div>
                   </div>
                 </div>
@@ -479,7 +512,7 @@ function StageDetail({ stage }) {
               {Object.entries(catColors).map(([cat, color]) => <Tag key={cat} label={cat} color={color}/>)}
               <span style={{ fontSize:11, color:C.muted, alignSelf:"center" }}>Category codes</span>
             </div>
-          </Sec>
+          </div>
         )}
 
         {tab === "tiers" && stage.tiers && (
@@ -512,8 +545,8 @@ function StageDetail({ stage }) {
               </div>
             ))}
             {stage.note && (
-              <div style={{ background:`${C.tier3}10`, border:`1px solid ${C.tier3}30`, borderRadius:8, padding:"10px 14px", fontSize:12, color:C.muted, lineHeight:1.6, fontStyle:"italic" }}>
-                ⚠️ {stage.note}
+              <div style={{ background:`${C.warn}12`, border:`1px solid ${C.warn}40`, borderRadius:8, padding:"10px 14px", fontSize:12, color:C.muted, lineHeight:1.6 }}>
+                <span style={{ color:C.warn, fontWeight:700 }}>⚠️ Infrastructure gap: </span>{stage.note}
               </div>
             )}
           </div>
@@ -568,30 +601,54 @@ function StageDetail({ stage }) {
   );
 }
 
-// ─── MISSION STATEMENT ───────────────────────────────────────────────────────
+// ─── MISSION ──────────────────────────────────────────────────────────────────
 
 function Mission() {
   const pillars = [
-    { icon:"📡", label:"Build Awareness at Scale", color:C.brand, desc:"A national, always-on brand presence across TV, CTV, social, audio, and OOH plants BambooHR in the consideration set of HR pros and business leaders before they're actively buying." },
-    { icon:"🎯", label:"Earn Engagement in the Middle", color:C.mid, desc:"Mid-funnel paid social converts passive awareness into active interest — serving the right content (templates, guides, webinars) to the right audience segments across Broad and CXO tracks." },
-    { icon:"🔄", label:"Re-engage & Convert Warm Audiences", color:C.rtg, desc:"Retargeting keeps BambooHR omnipresent for anyone who touched the brand, then layers in high-intent conversion tactics — conversation ads and offer ads — to drive demos and MQL1s." },
-    { icon:"✉️", label:"Nurture Every Path to Revenue", color:C.email, desc:"Email nurture personalizes the journey by source, segment, and behavior — routing each lead through the right welcome series, contextual track, or post-MQL sequence to move them from interest to Closed Won." },
+    { icon:"📡", label:"Build Awareness at Scale",          color:C.brand, desc:"A national, always-on brand presence across TV, CTV, social, audio, and OOH plants BambooHR in the consideration set of HR pros and business leaders before they're actively buying." },
+    { icon:"🎯", label:"Earn Engagement in the Middle",      color:C.mid,   desc:"Mid-funnel paid social converts passive awareness into active interest — serving the right content (templates, guides, webinars) to the right audience segments across Broad and CXO tracks." },
+    { icon:"🔄", label:"Re-engage & Convert Warm Audiences", color:C.rtg,   desc:"Retargeting keeps BambooHR omnipresent for anyone who touched the brand, then layers in high-intent conversion tactics — conversation ads and offer ads — to drive demos and MQL1s." },
+    { icon:"✉️", label:"Nurture Every Path to Revenue",      color:C.email, desc:"Email nurture personalizes the journey by source, segment, and behavior — routing each lead through the right welcome series, contextual track, or post-MQL sequence to move them from interest to Closed Won." },
+  ];
+
+  const audiences = [
+    {
+      icon:"📊", label:"Demand Gen", color:C.tier2,
+      desc:"Start with the Engagement Scoring stage to understand tier definitions and handoff triggers. Reference the Email Nurture stage for sequence logic and exit paths. The Prospect Journey tab shows the full end-to-end flow.",
+    },
+    {
+      icon:"🎯", label:"Paid Social", color:C.mid,
+      desc:"Jump to Mid-Funnel Paid Social and StackAdapt stages for channel tactics, content assets, and content pack details. The Journey Map shows how paid social and StackAdapt run simultaneously.",
+    },
+    {
+      icon:"🏆", label:"Marketing Leadership", color:C.gold,
+      desc:"The scorecard below tracks north-star metrics across the full funnel. Mission tab gives the strategic narrative. The infrastructure gap callout in Engagement Scoring flags the top unresolved technical blocker.",
+    },
+  ];
+
+  const scorecard = [
+    { val:"41% → 44%", label:"Consideration lift target",    color:C.brand, sub:"National brand goal" },
+    { val:"T3 Aware",  label:"Entry signal threshold",        color:C.tier1, sub:"1–2 impressions" },
+    { val:"T3 ME",     label:"BDR handoff threshold",         color:C.tier3, sub:"Multi-signal intent" },
+    { val:"8 series",  label:"Welcome email variants",        color:C.email, sub:"By source/segment" },
+    { val:"7 tracks",  label:"Contextual nurture tracks",     color:C.email, sub:"Topic-matched" },
+    { val:"26 emails", label:"Post-MQL1 sequence depth",      color:C.win,   sub:"MQL1 → SAO → CW" },
   ];
 
   return (
     <div>
-      {/* Hero statement */}
-      <div style={{ background:`linear-gradient(135deg, ${C.brand}18, ${C.mid}12, ${C.rtg}10)`, border:`1px solid ${C.border}`, borderRadius:16, padding:"28px 24px", marginBottom:20, position:"relative", overflow:"hidden" }}>
+      {/* Hero */}
+      <div style={{ background:`linear-gradient(135deg, ${C.brand}18, ${C.mid}12, ${C.rtg}10)`, border:`1px solid ${C.border}`, borderRadius:16, padding:"28px 24px", marginBottom:16, position:"relative", overflow:"hidden" }}>
         <div style={{ position:"absolute", top:-30, right:-30, width:180, height:180, borderRadius:"50%", background:C.brand, opacity:0.06 }}/>
         <div style={{ position:"absolute", bottom:-40, left:-20, width:140, height:140, borderRadius:"50%", background:C.mid, opacity:0.07 }}/>
         <div style={{ fontSize:11, fontWeight:700, color:C.gold, textTransform:"uppercase", letterSpacing:"0.12em", marginBottom:12 }}>Mission Statement</div>
-        <p style={{ fontSize:16, fontWeight:600, color:C.text, lineHeight:1.75, margin:0, position:"relative" }}>
+        <p style={{ fontSize:15, fontWeight:600, color:C.text, lineHeight:1.75, margin:0, position:"relative" }}>
           BambooHR's mid-funnel motion is built to make the brand impossible to ignore and easy to choose. By combining national brand reach with precision engagement, intent-based retargeting, and personalized email sequences, we guide HR professionals and business leaders from first impression to confident purchase decision — at every level of interest, across every relevant channel.
         </p>
       </div>
 
-      {/* Strategic intent line */}
-      <div style={{ display:"flex", gap:8, alignItems:"center", marginBottom:20, padding:"12px 16px", background:C.surfaceLight, borderRadius:10, border:`1px solid ${C.border}` }}>
+      {/* North Star */}
+      <div style={{ display:"flex", gap:8, alignItems:"center", marginBottom:16, padding:"12px 16px", background:C.surfaceLight, borderRadius:10, border:`1px solid ${C.border}` }}>
         <span style={{ fontSize:16 }}>🏆</span>
         <div style={{ fontSize:13, color:C.muted, lineHeight:1.6 }}>
           <span style={{ color:C.text, fontWeight:600 }}>North Star: </span>
@@ -599,33 +656,51 @@ function Mission() {
         </div>
       </div>
 
-      {/* Four pillars */}
-      <div style={{ fontSize:11, fontWeight:700, color:C.muted, textTransform:"uppercase", letterSpacing:"0.1em", marginBottom:12 }}>Strategic Pillars</div>
-      <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
-        {pillars.map((p, i) => (
-          <div key={p.label} style={{ display:"flex", gap:14, padding:"14px 16px", background:C.surfaceLight, borderRadius:12, borderLeft:`3px solid ${p.color}` }}>
-            <div style={{ fontSize:22, flexShrink:0, marginTop:2 }}>{p.icon}</div>
+      {/* Infrastructure gap callout */}
+      <div style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:16, padding:"12px 16px", background:`${C.warn}10`, borderRadius:10, border:`1px solid ${C.warn}40` }}>
+        <span style={{ fontSize:16, flexShrink:0 }}>⚠️</span>
+        <div style={{ fontSize:13, lineHeight:1.6 }}>
+          <span style={{ color:C.warn, fontWeight:700 }}>Top infrastructure gap: </span>
+          <span style={{ color:C.muted }}>Cross-channel audience sync. ZoomInfo + LinkedIn are the only channels with a unified audience sync today. StackAdapt requires manual SFDC uploads; Meta cannot receive contact-level lists. Full multi-channel automation is blocked until this is resolved.</span>
+        </div>
+      </div>
+
+      {/* Funnel Scorecard */}
+      <div style={{ fontSize:11, fontWeight:700, color:C.muted, textTransform:"uppercase", letterSpacing:"0.1em", marginBottom:10 }}>Funnel Scorecard</div>
+      <div style={{ display:"flex", gap:8, flexWrap:"wrap", marginBottom:20 }}>
+        {scorecard.map(m => (
+          <div key={m.label} style={{ flex:"1 1 130px", padding:"12px 14px", background:C.surfaceLight, borderRadius:10, border:`1px solid ${C.border}`, textAlign:"center" }}>
+            <div style={{ fontSize:18, fontWeight:800, color:m.color }}>{m.val}</div>
+            <div style={{ fontSize:11, color:C.text, fontWeight:600, marginTop:3 }}>{m.label}</div>
+            <div style={{ fontSize:10, color:C.muted, marginTop:2 }}>{m.sub}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Who uses this */}
+      <div style={{ fontSize:11, fontWeight:700, color:C.muted, textTransform:"uppercase", letterSpacing:"0.1em", marginBottom:10 }}>Who Uses This Doc</div>
+      <div style={{ display:"flex", flexDirection:"column", gap:10, marginBottom:20 }}>
+        {audiences.map(a => (
+          <div key={a.label} style={{ display:"flex", gap:12, padding:"14px 16px", background:C.surfaceLight, borderRadius:12, borderLeft:`3px solid ${a.color}` }}>
+            <span style={{ fontSize:20, flexShrink:0 }}>{a.icon}</span>
             <div>
-              <div style={{ fontSize:13, fontWeight:700, color:p.color, marginBottom:5 }}>{i + 1}. {p.label}</div>
-              <div style={{ fontSize:13, color:C.muted, lineHeight:1.65 }}>{p.desc}</div>
+              <div style={{ fontSize:13, fontWeight:700, color:a.color, marginBottom:4 }}>{a.label}</div>
+              <div style={{ fontSize:12, color:C.muted, lineHeight:1.65 }}>{a.desc}</div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Metrics snapshot */}
-      <div style={{ marginTop:20, display:"flex", gap:10, flexWrap:"wrap" }}>
-        {[
-          { val:"3pt", label:"Consideration lift target", color:C.brand },
-          { val:"2 tracks", label:"Broad + CXO funnel", color:C.mid },
-          { val:"7 ad formats", label:"Mid-funnel tactics", color:C.mid },
-          { val:"8 welcome", label:"Email series variants", color:C.email },
-          { val:"7 nurtures", label:"Contextual email tracks", color:C.email },
-          { val:"26 emails", label:"Post-MQL1 sequence", color:C.email },
-        ].map(m => (
-          <div key={m.label} style={{ flex:"1 1 140px", padding:"12px 14px", background:C.surfaceLight, borderRadius:10, border:`1px solid ${C.border}`, textAlign:"center" }}>
-            <div style={{ fontSize:18, fontWeight:800, color:m.color }}>{m.val}</div>
-            <div style={{ fontSize:11, color:C.muted, marginTop:3 }}>{m.label}</div>
+      {/* Strategic pillars */}
+      <div style={{ fontSize:11, fontWeight:700, color:C.muted, textTransform:"uppercase", letterSpacing:"0.1em", marginBottom:10 }}>Strategic Pillars</div>
+      <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
+        {pillars.map((p, i) => (
+          <div key={p.label} style={{ display:"flex", gap:14, padding:"14px 16px", background:C.surfaceLight, borderRadius:12, borderLeft:`3px solid ${p.color}` }}>
+            <div style={{ fontSize:22, flexShrink:0, marginTop:2 }}>{p.icon}</div>
+            <div>
+              <div style={{ fontSize:13, fontWeight:700, color:p.color, marginBottom:5 }}>{i+1}. {p.label}</div>
+              <div style={{ fontSize:13, color:C.muted, lineHeight:1.65 }}>{p.desc}</div>
+            </div>
           </div>
         ))}
       </div>
@@ -633,90 +708,76 @@ function Mission() {
   );
 }
 
-// ─── PROSPECT JOURNEY ────────────────────────────────────────────────────────
+// ─── PROSPECT JOURNEY ─────────────────────────────────────────────────────────
 
 const journeySteps = [
   {
-    phase: "Brand Impression",
-    icon: "📡",
-    color: C.brand,
-    label: "Prospect enters as Tier 3 — Aware",
-    channels: ["Linear TV / CTV", "YouTube", "LinkedIn", "Meta", "Reddit", "Audio / FM Radio"],
-    detail: "The prospect works in HR or holds a C-Suite/Finance role at a company with 2–2,000 employees. They encounter BambooHR brand advertising — a video on YouTube, a LinkedIn ad, a CTV spot — and a memory link is formed. No action is taken yet. They're logged in ZoomInfo as Tier 3 Aware after 1–2 impressions.",
-    signal: "1–2 brand impressions tracked via ZoomInfo Display",
-    content: null,
-    stackadaptNote: null,
+    phase:"Brand Impression", icon:"📡", color:C.brand,
+    label:"Prospect enters as Tier 3 — Aware",
+    channels:["Linear TV / CTV","YouTube","LinkedIn","Meta","Reddit","Audio / FM Radio"],
+    detail:"The prospect works in HR or holds a C-Suite/Finance role at a company with 2–2,000 employees. They encounter BambooHR brand advertising — a video on YouTube, a LinkedIn ad, a CTV spot — and a memory link is formed. No action is taken yet. They're logged in ZoomInfo as Tier 3 Aware after 1–2 impressions.",
+    signal:"1–2 brand impressions tracked via ZoomInfo Display",
+    content:null, stackadaptNote:null,
   },
   {
-    phase: "Mid-Funnel Paid Social & StackAdapt",
-    icon: "🎯",
-    color: C.mid,
-    label: "Prospect is served Themed Content Pack creative across paid social and programmatic",
-    channels: ["LinkedIn", "Meta", "Reddit", "TikTok", "StackAdapt", "ZoomInfo Display"],
-    detail: "Paid Social (LinkedIn, Meta, Reddit, TikTok) and StackAdapt are running simultaneously, both serving creative from the same Themed Content Packs — Compensation, AI Launch, or Open Enrollment. These packs are the content behind the campaigns, not something the prospect finds on their own. On paid social, the prospect sees native placements in their feed and clicks through to a landing page or downloads an asset. At the same time, StackAdapt is broadcasting the same themed creative programmatically across display and native web inventory, maintaining ambient presence between social sessions. The prospect may be touched by both channels without realizing it — that's by design.",
-    signal: "First active digital signal (ad click, email click, or high-value page visit) → upgrades to Tier 3 Initial Engagement",
-    content: [
-      { pack: "Compensation Pack creative", example: "Served via paid social + StackAdapt: compensation benchmarks, pay transparency guides, CFO-relevant HR content", icon: "💰", color: "#F59E0B" },
-      { pack: "AI Launch Pack creative", example: "Served via paid social + StackAdapt: AI-in-HR content, BambooHR AI feature resources, timed to 7/21 launch", icon: "🤖", color: "#EC4899" },
-      { pack: "Open Enrollment Pack creative", example: "Served via paid social + StackAdapt: seasonal prep content, benefits planning toolkits (late Q3 / early Q4)", icon: "📋", color: "#14A88D" },
+    phase:"Mid-Funnel Paid Social & StackAdapt", icon:"🎯", color:C.mid,
+    label:"Prospect is served Themed Content Pack creative across paid social and programmatic",
+    channels:["LinkedIn","Meta","Reddit","TikTok","StackAdapt","ZoomInfo Display"],
+    detail:"Paid Social (LinkedIn, Meta, Reddit, TikTok) and StackAdapt are running simultaneously, both serving creative from the same Themed Content Packs — Compensation, AI Launch, or Open Enrollment. These packs are the content behind the campaigns, not something the prospect finds on their own. On paid social, the prospect sees native placements in their feed and clicks through to a landing page or downloads an asset. At the same time, StackAdapt is broadcasting the same themed creative programmatically across display and native web inventory, maintaining ambient presence between social sessions. The prospect may be touched by both channels without realizing it — that's by design.",
+    signal:"First active digital signal (ad click, email click, or high-value page visit) → upgrades to Tier 3 Initial Engagement",
+    content:[
+      { pack:"Compensation Pack creative", example:"Served via paid social + StackAdapt: compensation benchmarks, pay transparency guides, CFO-relevant HR content", icon:"💰", color:"#F59E0B" },
+      { pack:"AI Launch Pack creative", example:"Served via paid social + StackAdapt: AI-in-HR content, BambooHR AI feature resources, timed to 7/21 launch", icon:"🤖", color:"#EC4899" },
+      { pack:"Open Enrollment Pack creative", example:"Served via paid social + StackAdapt: seasonal prep content, benefits planning toolkits (late Q3 / early Q4)", icon:"📋", color:"#14A88D" },
     ],
-    stackadaptNote: "StackAdapt runs off manually uploaded SFDC account lists — no live ZoomInfo sync. Paid social and StackAdapt are targeting the same account universe simultaneously but are not technically unified. Solving this cross-channel sync gap is the top infrastructure priority.",
+    stackadaptNote:"StackAdapt runs off manually uploaded SFDC account lists — no live ZoomInfo sync. Paid social and StackAdapt are targeting the same account universe simultaneously but are not technically unified. Solving this cross-channel sync gap is the top infrastructure priority.",
   },
   {
-    phase: "Deeper Mid-Funnel Engagement",
-    icon: "🔁",
-    color: C.mid,
-    label: "Prospect enters Broad or CXO Funnel based on role",
-    channels: ["Meta", "LinkedIn", "Reddit", "TikTok", "StackAdapt"],
-    detail: "After the first engagement, the prospect is routed into the Broad Funnel (HR Pros) or CXO Funnel (C-Suite & Finance) through continued paid social. They see more content relevant to the theme they engaged with — gated downloads, webinar invites, blog posts, quizzes. StackAdapt continues broadcasting in parallel across web inventory. Each additional interaction deepens their engagement score in ZoomInfo toward the Tier 3 Meaningful Engagement threshold.",
-    signal: "Multiple interactions → 3+ site visits across 2+ contacts, or 2+ high-intent page visits in 30 days → Tier 3 Meaningful Engagement",
-    content: [
-      { pack: "Broad Funnel (HR Pros)", example: "Gated content downloads, ungated LPVs, quiz completions, event registrations via Meta, LinkedIn, Reddit, TikTok", icon: "👥", color: C.mid },
-      { pack: "CXO Funnel (C-Suite & Finance)", example: "Blogs & ungated content, LinkedIn followers, event registrations", icon: "🏢", color: C.mid },
-      { pack: "StackAdapt — Ongoing Broadcast", example: "Programmatic display continues serving Themed Content Pack creative across web inventory alongside all paid social activity", icon: "📺", color: C.sa },
+    phase:"Deeper Mid-Funnel Engagement", icon:"🔁", color:C.mid,
+    label:"Prospect enters Broad or CXO Funnel based on role",
+    channels:["Meta","LinkedIn","Reddit","TikTok","StackAdapt"],
+    detail:"After the first engagement, the prospect is routed into the Broad Funnel (HR Pros) or CXO Funnel (C-Suite & Finance) through continued paid social. They see more content relevant to the theme they engaged with — gated downloads, webinar invites, blog posts, quizzes. StackAdapt continues broadcasting in parallel across web inventory. Each additional interaction deepens their engagement score in ZoomInfo toward the Tier 3 Meaningful Engagement threshold.",
+    signal:"Multiple interactions → 3+ site visits across 2+ contacts, or 2+ high-intent page visits in 30 days → Tier 3 Meaningful Engagement",
+    content:[
+      { pack:"Broad Funnel (HR Pros)", example:"Gated content downloads, ungated LPVs, quiz completions, event registrations via Meta, LinkedIn, Reddit, TikTok", icon:"👥", color:C.mid },
+      { pack:"CXO Funnel (C-Suite & Finance)", example:"Blogs & ungated content, LinkedIn followers, event registrations", icon:"🏢", color:C.mid },
+      { pack:"StackAdapt — Ongoing Broadcast", example:"Programmatic display continues serving Themed Content Pack creative across web inventory alongside all paid social activity", icon:"📺", color:C.sa },
     ],
-    stackadaptNote: null,
+    stackadaptNote:null,
   },
   {
-    phase: "Retargeting",
-    icon: "🔄",
-    color: C.rtg,
-    label: "Warm audience re-engagement across channels",
-    channels: ["Meta", "LinkedIn", "Reddit", "TikTok", "YouTube"],
-    detail: "The prospect has now touched the brand multiple times. Retargeting campaigns keep BambooHR omnipresent across their feeds. The content served escalates in commitment: conversation ads on LinkedIn invite a demo, offer ads present an incentive, and an omnipresent reach campaign maintains top-of-mind presence. The prospect is now being pushed toward a conversion action.",
-    signal: "Tier 3 Meaningful Engagement threshold met — BDR routing evaluation begins",
-    content: [
-      { pack: "Omnipresent Reach", example: "Always-on brand presence across Meta, LinkedIn, and YouTube", icon: "📺", color: C.rtg },
-      { pack: "Conversation Ads (LinkedIn)", example: "\"Want to see how BambooHR handles [their topic]? Book a quick demo.\"", icon: "💬", color: C.rtg },
-      { pack: "Offer Ads (LI + Meta)", example: "Demo + incentive offer tied to the content theme they engaged with", icon: "🎁", color: C.rtg },
+    phase:"Retargeting", icon:"🔄", color:C.rtg,
+    label:"Warm audience re-engagement across channels",
+    channels:["Meta","LinkedIn","Reddit","TikTok","YouTube"],
+    detail:"The prospect has now touched the brand multiple times. Retargeting campaigns keep BambooHR omnipresent across their feeds. The content served escalates in commitment: conversation ads on LinkedIn invite a demo, offer ads present an incentive, and an omnipresent reach campaign maintains top-of-mind presence. The prospect is now being pushed toward a conversion action.",
+    signal:"Tier 3 Meaningful Engagement threshold met — BDR routing evaluation begins",
+    content:[
+      { pack:"Omnipresent Reach", example:"Always-on brand presence across Meta, LinkedIn, and YouTube", icon:"📺", color:C.rtg },
+      { pack:"Conversation Ads (LinkedIn)", example:"\"Want to see how BambooHR handles [their topic]? Book a quick demo.\"", icon:"💬", color:C.rtg },
+      { pack:"Offer Ads (LI + Meta)", example:"Demo + incentive offer tied to the content theme they engaged with", icon:"🎁", color:C.rtg },
     ],
-    stackadaptNote: null,
+    stackadaptNote:null,
   },
   {
-    phase: "Email Capture & Nurture",
-    icon: "✉️",
-    color: C.email,
-    label: "Prospect enters the right email sequence",
-    channels: ["Marketo / Email"],
-    detail: "Once the prospect converts on a form — content download, demo request, event registration — they enter the email nurture system. The welcome series they receive is matched to their entry source. From there, they're routed into a contextual nurture track that matches the theme they've been engaging with: Compensation, AI, or Open Enrollment-adjacent topics.",
-    signal: "Form fill or demo request — enters email system via Marketo",
-    content: [
-      { pack: "Paid Media Welcome Series", example: "1-email webinar welcome → contextual nurture", icon: "📧", color: C.email },
-      { pack: "Contextual Nurture Match", example: "HR Insights or New Data & Reporting nurture for Compensation; AI Nurture for AI Launch content; Payroll, Time & Benefits for Open Enrollment", icon: "🗂", color: C.email },
-      { pack: "Post-MQL1 Sequence", example: "If MQL1 threshold is hit: 26-email sequence → ROI Calculator → HRIS Buyer's Guide → Demo CTAs → SAO", icon: "📈", color: C.win },
+    phase:"Email Capture & Nurture", icon:"✉️", color:C.email,
+    label:"Prospect enters the right email sequence",
+    channels:["Marketo / Email"],
+    detail:"Once the prospect converts on a form — content download, demo request, event registration — they enter the email nurture system. The welcome series they receive is matched to their entry source. From there, they're routed into a contextual nurture track that matches the theme they've been engaging with: Compensation, AI, or Open Enrollment-adjacent topics.",
+    signal:"Form fill or demo request — enters email system via Marketo",
+    content:[
+      { pack:"Paid Media Welcome Series", example:"1-email webinar welcome → contextual nurture", icon:"📧", color:C.email },
+      { pack:"Contextual Nurture Match", example:"HR Insights or New Data & Reporting nurture for Compensation; AI Nurture for AI Launch content; Payroll, Time & Benefits for Open Enrollment", icon:"🗂", color:C.email },
+      { pack:"Post-MQL1 Sequence", example:"If MQL1 threshold is hit: 26-email sequence → ROI Calculator → HRIS Buyer's Guide → Demo CTAs → SAO", icon:"📈", color:C.win },
     ],
-    stackadaptNote: null,
+    stackadaptNote:null,
   },
   {
-    phase: "Conversion",
-    icon: "🎉",
-    color: C.win,
-    label: "MQL1 → SAO → Closed Won",
-    channels: ["Sales / BDR"],
-    detail: "The prospect has moved from a passive brand impression to an active, nurtured lead. If they reached Tier 3 Meaningful Engagement, BDR routing evaluation has already begun. The combination of retargeting conversion ads, a demo offer, and a personalized email sequence has created the conditions for a sales conversation. They book a demo, qualify as an SAO, and move into the sales cycle.",
-    signal: "MQL1 achieved → Post-MQL1 nurture or direct BDR outreach → SAO → Closed Won",
-    content: null,
-    stackadaptNote: null,
+    phase:"Conversion", icon:"🎉", color:C.win,
+    label:"MQL1 → SAO → Closed Won",
+    channels:["Sales / BDR"],
+    detail:"The prospect has moved from a passive brand impression to an active, nurtured lead. If they reached Tier 3 Meaningful Engagement, BDR routing evaluation has already begun. The combination of retargeting conversion ads, a demo offer, and a personalized email sequence has created the conditions for a sales conversation. They book a demo, qualify as an SAO, and move into the sales cycle.",
+    signal:"MQL1 achieved → Post-MQL1 nurture or direct BDR outreach → SAO → Closed Won",
+    content:null, stackadaptNote:null,
   },
 ];
 
@@ -726,56 +787,31 @@ function ProspectJourney() {
 
   return (
     <div>
-      <div style={{ marginBottom:20 }}>
-        <div style={{ fontSize:13, color:C.muted, lineHeight:1.6 }}>
-          A single prospect's path from first brand impression to Closed Won — showing how Brand Awareness, Themed Content Packs, mid-funnel channels, retargeting, and email nurture work together as one connected motion.
-        </div>
+      <div style={{ fontSize:13, color:C.muted, lineHeight:1.6, marginBottom:20 }}>
+        A single prospect's path from first brand impression to Closed Won — showing how Brand Awareness, Themed Content Packs, mid-funnel channels, retargeting, and email nurture work together as one connected motion.
       </div>
 
-      {/* Step timeline */}
-      <div style={{ display:"flex", flexDirection:"column", gap:0, marginBottom:24, position:"relative" }}>
+      {/* Timeline */}
+      <div style={{ display:"flex", flexDirection:"column", gap:0, marginBottom:24 }}>
         {journeySteps.map((s, i) => {
-          const isActive = active === i;
-          const isPast = i < active;
+          const isActive = active === i, isPast = i < active;
           return (
             <div key={i} style={{ display:"flex", gap:0, alignItems:"stretch" }}>
-              {/* Connector column */}
               <div style={{ display:"flex", flexDirection:"column", alignItems:"center", width:36, flexShrink:0 }}>
-                <button
-                  onClick={() => setActive(i)}
-                  style={{
-                    width:32, height:32, borderRadius:"50%", border:`2px solid ${isActive ? s.color : isPast ? s.color+"88" : C.border}`,
-                    background: isActive ? s.color : isPast ? s.color+"22" : C.surface,
-                    cursor:"pointer", fontSize:14, display:"flex", alignItems:"center", justifyContent:"center",
-                    flexShrink:0, transition:"all 0.2s", zIndex:1,
-                  }}
-                >{s.icon}</button>
-                {i < journeySteps.length - 1 && (
-                  <div style={{ width:2, flex:1, minHeight:24, background: isPast ? s.color+"55" : C.border, margin:"2px 0" }}/>
-                )}
+                <button onClick={() => setActive(i)} style={{ width:32, height:32, borderRadius:"50%", border:`2px solid ${isActive ? s.color : isPast ? s.color+"88" : C.border}`, background:isActive ? s.color : isPast ? s.color+"22" : C.surface, cursor:"pointer", fontSize:14, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"all 0.2s", zIndex:1 }}>{s.icon}</button>
+                {i < journeySteps.length-1 && <div style={{ width:2, flex:1, minHeight:24, background:isPast ? s.color+"55" : C.border, margin:"2px 0" }}/>}
               </div>
-
-              {/* Step label row */}
-              <button
-                onClick={() => setActive(i)}
-                style={{
-                  flex:1, textAlign:"left", background: isActive ? s.color+"12" : "transparent",
-                  border:`1px solid ${isActive ? s.color+"44" : "transparent"}`,
-                  borderRadius:10, padding:"10px 14px", cursor:"pointer", marginBottom: i < journeySteps.length-1 ? 4 : 0,
-                  marginLeft:8, transition:"all 0.15s",
-                }}
-              >
-                <div style={{ fontSize:10, fontWeight:700, color: isActive ? s.color : C.muted, textTransform:"uppercase", letterSpacing:"0.08em" }}>Step {i+1} · {s.phase}</div>
-                <div style={{ fontSize:13, fontWeight:600, color: isActive ? C.text : C.muted, marginTop:3 }}>{s.label}</div>
+              <button onClick={() => setActive(i)} style={{ flex:1, textAlign:"left", background:isActive ? s.color+"12" : "transparent", border:`1px solid ${isActive ? s.color+"44" : "transparent"}`, borderRadius:10, padding:"10px 14px", cursor:"pointer", marginBottom:i < journeySteps.length-1 ? 4 : 0, marginLeft:8, transition:"all 0.15s" }}>
+                <div style={{ fontSize:10, fontWeight:700, color:isActive ? s.color : C.muted, textTransform:"uppercase", letterSpacing:"0.08em" }}>Step {i+1} · {s.phase}</div>
+                <div style={{ fontSize:13, fontWeight:600, color:isActive ? C.text : C.muted, marginTop:3 }}>{s.label}</div>
               </button>
             </div>
           );
         })}
       </div>
 
-      {/* Active step detail */}
+      {/* Detail */}
       <div style={{ background:C.surface, borderRadius:16, border:`1px solid ${step.color}44`, overflow:"hidden" }}>
-        {/* Header */}
         <div style={{ background:`linear-gradient(135deg, ${step.color}22, ${step.color}08)`, borderBottom:`1px solid ${step.color}22`, padding:"16px 20px", display:"flex", alignItems:"center", gap:12 }}>
           <span style={{ fontSize:28 }}>{step.icon}</span>
           <div>
@@ -784,22 +820,16 @@ function ProspectJourney() {
             <div style={{ fontSize:12, color:C.muted, marginTop:2 }}>{step.label}</div>
           </div>
         </div>
-
         <div style={{ padding:"18px 18px 22px" }}>
-          {/* Narrative */}
           <div style={{ fontSize:13, color:C.text, lineHeight:1.75, marginBottom:16, padding:"14px 16px", background:C.surfaceLight, borderRadius:10, borderLeft:`3px solid ${step.color}` }}>
             {step.detail}
           </div>
-
-          {/* Signal */}
           <div style={{ display:"flex", gap:8, alignItems:"flex-start", marginBottom:16, padding:"10px 14px", background:C.tag, borderRadius:8, border:`1px solid ${step.color}33` }}>
             <span style={{ fontSize:14, flexShrink:0 }}>⚡</span>
             <div style={{ fontSize:12, color:C.muted, lineHeight:1.55 }}>
               <span style={{ color:step.color, fontWeight:700 }}>Signal / Threshold: </span>{step.signal}
             </div>
           </div>
-
-          {/* Channels */}
           <div style={{ marginBottom:16 }}>
             <div style={{ fontSize:10, fontWeight:700, color:C.muted, textTransform:"uppercase", letterSpacing:"0.08em", marginBottom:8 }}>Active Channels</div>
             <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
@@ -808,8 +838,6 @@ function ProspectJourney() {
               ))}
             </div>
           </div>
-
-          {/* Content examples */}
           {step.content && (
             <div>
               <div style={{ fontSize:10, fontWeight:700, color:C.muted, textTransform:"uppercase", letterSpacing:"0.08em", marginBottom:8 }}>
@@ -829,8 +857,6 @@ function ProspectJourney() {
               ))}
             </div>
           )}
-
-          {/* StackAdapt operational note */}
           {step.stackadaptNote && (
             <div style={{ display:"flex", gap:8, alignItems:"flex-start", marginTop:12, padding:"10px 14px", background:C.sa+"12", border:`1px solid ${C.sa}33`, borderRadius:8 }}>
               <span style={{ fontSize:14, flexShrink:0 }}>📺</span>
@@ -839,19 +865,9 @@ function ProspectJourney() {
               </div>
             </div>
           )}
-
-          {/* Navigation */}
           <div style={{ display:"flex", justifyContent:"space-between", marginTop:20, gap:10 }}>
-            <button
-              onClick={() => setActive(Math.max(0, active-1))}
-              disabled={active === 0}
-              style={{ flex:1, padding:"10px", borderRadius:8, border:`1px solid ${C.border}`, background: active===0 ? "transparent" : C.surfaceLight, color: active===0 ? C.border : C.text, fontSize:13, fontWeight:600, cursor: active===0 ? "default" : "pointer" }}
-            >← Previous</button>
-            <button
-              onClick={() => setActive(Math.min(journeySteps.length-1, active+1))}
-              disabled={active === journeySteps.length-1}
-              style={{ flex:1, padding:"10px", borderRadius:8, border:`1px solid ${active===journeySteps.length-1 ? C.border : step.color}`, background: active===journeySteps.length-1 ? "transparent" : step.color+"22", color: active===journeySteps.length-1 ? C.border : step.color, fontSize:13, fontWeight:600, cursor: active===journeySteps.length-1 ? "default" : "pointer" }}
-            >Next →</button>
+            <button onClick={() => setActive(Math.max(0, active-1))} disabled={active===0} style={{ flex:1, padding:"10px", borderRadius:8, border:`1px solid ${C.border}`, background:active===0 ? "transparent" : C.surfaceLight, color:active===0 ? C.border : C.text, fontSize:13, fontWeight:600, cursor:active===0 ? "default" : "pointer" }}>← Previous</button>
+            <button onClick={() => setActive(Math.min(journeySteps.length-1, active+1))} disabled={active===journeySteps.length-1} style={{ flex:1, padding:"10px", borderRadius:8, border:`1px solid ${active===journeySteps.length-1 ? C.border : step.color}`, background:active===journeySteps.length-1 ? "transparent" : step.color+"22", color:active===journeySteps.length-1 ? C.border : step.color, fontSize:13, fontWeight:600, cursor:active===journeySteps.length-1 ? "default" : "pointer" }}>Next →</button>
           </div>
         </div>
       </div>
@@ -862,7 +878,7 @@ function ProspectJourney() {
 // ─── ROOT ─────────────────────────────────────────────────────────────────────
 
 function App() {
-  const [view, setView] = useState("mission"); // mission | map | detail
+  const [view, setView] = useState("mission");
   const [activeStage, setActiveStage] = useState("brand");
 
   function handleNodeClick(stageId) {
@@ -873,19 +889,25 @@ function App() {
   const stage = stageData.find(s => s.id === activeStage);
 
   const navItems = [
-    { id:"mission",  label:"Mission",          icon:"🏆" },
-    { id:"map",      label:"Journey Map",       icon:"🗺️" },
-    { id:"journey",  label:"Prospect Journey",  icon:"🧭" },
-    { id:"detail",   label:"Stage Detail",      icon:"📋" },
+    { id:"mission", label:"Mission",         icon:"🏆" },
+    { id:"map",     label:"Journey Map",      icon:"🗺️" },
+    { id:"journey", label:"Prospect Journey", icon:"🧭" },
+    { id:"detail",  label:"Stage Detail",     icon:"📋" },
   ];
 
   return (
     <div style={{ background:C.bg, minHeight:"100vh", fontFamily:"'Inter', -apple-system, BlinkMacSystemFont, sans-serif", color:C.text, boxSizing:"border-box" }}>
-      {/* Top header */}
       <div style={{ background:C.surface, borderBottom:`1px solid ${C.border}`, padding:"14px 20px 0", position:"sticky", top:0, zIndex:50 }}>
-        <div style={{ fontSize:10, fontWeight:700, color:C.muted, textTransform:"uppercase", letterSpacing:"0.12em", marginBottom:2 }}>BambooHR · H2 2026</div>
-        <div style={{ fontSize:17, fontWeight:800, color:C.text, marginBottom:12 }}>Prospect Journey Map</div>
-        <div style={{ display:"flex", gap:2 }}>
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
+          <div>
+            <div style={{ fontSize:10, fontWeight:700, color:C.muted, textTransform:"uppercase", letterSpacing:"0.12em", marginBottom:2 }}>BambooHR · H2 2026</div>
+            <div style={{ fontSize:17, fontWeight:800, color:C.text }}>Prospect Journey Map</div>
+          </div>
+          <div style={{ fontSize:10, color:C.muted, textAlign:"right", paddingTop:2 }}>
+            Last updated<br/><span style={{ color:C.text, fontWeight:600 }}>{LAST_UPDATED}</span>
+          </div>
+        </div>
+        <div style={{ display:"flex", gap:2, marginTop:10 }}>
           {navItems.map(n => (
             <button key={n.id} onClick={() => setView(n.id)} style={{ background:"none", border:"none", borderBottom:`2px solid ${view===n.id ? C.gold : "transparent"}`, color:view===n.id ? C.gold : C.muted, fontSize:12, fontWeight:600, padding:"8px 14px 6px", cursor:"pointer", display:"flex", alignItems:"center", gap:5 }}>
               <span>{n.icon}</span>{n.label}
@@ -895,18 +917,17 @@ function App() {
       </div>
 
       <div style={{ padding:"20px 20px 40px" }}>
-        {view === "mission"  && <Mission/>}
-        {view === "journey"  && <ProspectJourney/>}
+        {view === "mission" && <Mission/>}
+        {view === "journey" && <ProspectJourney/>}
 
         {view === "map" && (
           <div>
             <div style={{ fontSize:13, color:C.muted, marginBottom:16, lineHeight:1.6 }}>
-              Tap any node to jump to its stage detail. Solid lines = primary paths · Dashed lines = tactical branches · Color = funnel stage.
+              Tap any node to jump to its stage detail. Solid lines = primary paths · Dashed lines = concurrent flows · Gold = retention loop.
             </div>
             <div style={{ background:C.surface, borderRadius:16, border:`1px solid ${C.border}`, padding:"16px 12px", overflow:"hidden" }}>
               <WebMap onNodeClick={handleNodeClick}/>
             </div>
-            {/* Stage jump buttons */}
             <div style={{ display:"flex", gap:8, flexWrap:"wrap", marginTop:16 }}>
               {stageData.map(s => (
                 <button key={s.id} onClick={() => { setActiveStage(s.id); setView("detail"); }} style={{ display:"flex", alignItems:"center", gap:6, padding:"8px 14px", background:C.surfaceLight, border:`1px solid ${s.color}55`, borderRadius:20, cursor:"pointer", fontSize:12, fontWeight:600, color:s.colorLight }}>
@@ -919,7 +940,6 @@ function App() {
 
         {view === "detail" && (
           <div>
-            {/* Stage switcher */}
             <div style={{ display:"flex", gap:6, marginBottom:16, flexWrap:"wrap" }}>
               {stageData.map(s => (
                 <button key={s.id} onClick={() => setActiveStage(s.id)} style={{ padding:"6px 12px", borderRadius:20, border:`1.5px solid ${activeStage===s.id ? s.color : C.border}`, background:activeStage===s.id ? s.color+"22" : "transparent", color:activeStage===s.id ? s.colorLight : C.muted, fontSize:12, fontWeight:600, cursor:"pointer" }}>
