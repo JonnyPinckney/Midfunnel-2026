@@ -875,6 +875,270 @@ function ProspectJourney() {
   );
 }
 
+// ─── CONTENT JOURNEY ──────────────────────────────────────────────────────────
+
+const contentStages = [
+  {
+    id: "brand_creative",
+    phase: "Brand Creative",
+    icon: "📡",
+    color: C.brand,
+    intent: "Plant the memory structure",
+    channels: ["LinkedIn", "Meta", "YouTube", "CTV", "Reddit", "Audio"],
+    channelType: "Paid Reach",
+    description: "Always-on brand campaign establishes BambooHR as the obvious HRIS choice before the prospect is actively buying. Creative builds the memory link between BambooHR and the HR buying situation.",
+    assets: [
+      { title: "\"That's Bambooable\" video spots", format: "Video", status: "Live", note: "30s + 15s cuts across CTV, YouTube, LinkedIn" },
+      { title: "Powerfully Easy static ads", format: "Static", status: "Live", note: "LinkedIn, Meta, Reddit — brand pillar messaging" },
+      { title: "\"Eliminate the Tradeoff\" creative", format: "Video + Static", status: "Live", note: "Speaks to HR pros frustrated with complexity" },
+      { title: "\"Unlock the People Multiplier\" ads", format: "Static", status: "Live", note: "C-Suite and Finance audience variant" },
+    ],
+    cta: "Awareness only — no CTA",
+    signal: "1–2 impressions → Tier 3 Aware in ZoomInfo",
+  },
+  {
+    id: "ai_paid_social",
+    phase: "AI Launch — Paid Social",
+    icon: "🤖",
+    color: "#EC4899",
+    intent: "Drive first active engagement",
+    channels: ["LinkedIn", "Meta", "Reddit"],
+    channelType: "Paid Social — Mid-Funnel",
+    description: "AI Launch content pack is served across LinkedIn, Meta, and Reddit to HR pros and CXO audiences. This is the content behind the paid social campaigns — prospects click through from native feed placements into landing pages or content downloads. First click upgrades them to Tier 3 Initial Engagement.",
+    assets: [
+      { title: "AI in HR: What's Actually Changing (blog)", format: "Ungated Blog", status: "Planned", note: "LinkedIn article + Meta traffic ad — broad HR audience" },
+      { title: "The AI Confidence Illusion (webinar)", format: "OD Webinar", status: "Live", note: "Gated — drives content download signal" },
+      { title: "How AI is Changing HR Workflows whitepaper", format: "Whitepaper", status: "Planned", note: "Gated — LinkedIn lead gen form + Meta" },
+      { title: "AI Readiness Quiz for HR Teams", format: "Interactive / OutGrow", status: "Planned", note: "Quiz completion = strong intent signal" },
+      { title: "5 HR Tasks AI Can Handle Today", format: "Static Ad + Landing Page", status: "Planned", note: "Ungated — LPV objective, Reddit + Meta" },
+      { title: "BambooHR AI Feature Preview", format: "Video", status: "Planned", note: "Product-focused — LinkedIn video ad" },
+    ],
+    cta: "Download / Read / Take the Quiz",
+    signal: "Content download, LPV, or quiz completion → Tier 3 Initial Engagement",
+  },
+  {
+    id: "ai_stackadapt",
+    phase: "AI Launch — StackAdapt",
+    icon: "📺",
+    color: C.sa,
+    intent: "Reinforce between social sessions",
+    channels: ["Programmatic Display", "Native Web", "Retargeting Network"],
+    channelType: "StackAdapt — Simultaneous Broadcast",
+    description: "The same AI Launch content pack creative runs programmatically across StackAdapt's display and native inventory at the same time as paid social. The prospect sees BambooHR AI content in their LinkedIn feed AND across the broader web — editorial sites, industry publications, news — without realizing it's coordinated. StackAdapt targets the same SFDC account list manually uploaded.",
+    assets: [
+      { title: "AI Launch display banners", format: "Display — 300x250, 728x90, 160x600", status: "Planned", note: "Same messaging as paid social — reinforces the theme" },
+      { title: "Native content placements", format: "Native Ad", status: "Planned", note: "In-feed on industry publications and news sites" },
+      { title: "AI Readiness Quiz — programmatic distribution", format: "Native / Display", status: "Planned", note: "Drives quiz completions from non-social inventory" },
+      { title: "BambooHR AI feature preview — display", format: "Animated Display", status: "Planned", note: "Product-forward creative for warm accounts" },
+    ],
+    cta: "Click to landing page / content download",
+    signal: "Site visit from StackAdapt placement → contributes to ZoomInfo engagement score",
+  },
+  {
+    id: "broadcast_email",
+    phase: "Broadcast Email",
+    icon: "📧",
+    color: C.email,
+    intent: "Reach the full database with AI content",
+    channels: ["Marketo", "Email"],
+    channelType: "Email — Broadcast",
+    description: "Batch email sends (Tuesday & Thursday, 6AM MT) expose the full marketable database to AI Launch content. These aren't triggered nurtures — they're broadcast sends to all active contacts. The goal is to surface the AI theme to anyone who hasn't yet engaged with it through paid channels, and to re-engage dormant contacts with a relevant, timely message.",
+    assets: [
+      { title: "AI Launch announcement email", format: "Broadcast Email", status: "Planned", note: "Sent Tue/Thu — announces BambooHR AI to full database" },
+      { title: "\"How AI is changing HR\" content email", format: "Broadcast Email", status: "Planned", note: "Links to blog + whitepaper — drives content engagement" },
+      { title: "AI Readiness Quiz email", format: "Broadcast Email", status: "Planned", note: "Quiz CTA — strong intent signal for responders" },
+      { title: "Upcoming AI webinar invite", format: "Broadcast Email", status: "Planned", note: "Event registration CTA — drives high-intent signal" },
+    ],
+    cta: "Read the blog / Take the quiz / Register for webinar",
+    signal: "Email click → Initial Engagement signal; registration or download → strong intent",
+  },
+  {
+    id: "contextual_nurture",
+    phase: "Contextual Nurture",
+    icon: "🗂",
+    color: C.email,
+    intent: "Deepen relevance based on what they engaged with",
+    channels: ["Marketo", "Email"],
+    channelType: "Email — Triggered Nurture",
+    description: "Once a prospect engages with AI content — clicks an email, downloads a whitepaper, completes the quiz — they're routed into the AI Nurture contextual track. This is a 6-email sequence specifically built around AI in HR, delivered at a cadence matched to their engagement pace. Each email deepens the AI narrative and ladders toward a demo CTA.",
+    assets: [
+      { title: "AI Nurture Email 1: Questions", format: "Nurture Email", status: "Live", note: "Opens with the questions HR pros are asking about AI" },
+      { title: "AI Nurture Email 2: Learning (w/ Demo Banner)", format: "Nurture Email", status: "Live", note: "How BambooHR approaches AI — soft demo introduction" },
+      { title: "AI Nurture Email 3: Hiring (w/ Trial Banner)", format: "Nurture Email", status: "Live", note: "AI in hiring workflows — trial CTA in banner" },
+      { title: "AI Nurture Email 4: Benchmarks", format: "Nurture Email", status: "Live", note: "AI adoption benchmarks — positions BHR as ahead of curve" },
+      { title: "AI Nurture Email 5: Employee Experience (w/ Pricing Banner)", format: "Nurture Email", status: "Live", note: "AI impact on EX — pricing CTA in banner" },
+      { title: "AI Nurture Email 6: Case Study (w/ Demo CTA)", format: "Nurture Email", status: "Live", note: "Customer story — closes with demo request" },
+    ],
+    cta: "Demo banner → Trial CTA → Pricing CTA → Demo CTA",
+    signal: "Demo request or pricing page visit → MQL1",
+  },
+  {
+    id: "retargeting_content",
+    phase: "Retargeting Content",
+    icon: "🔄",
+    color: C.rtg,
+    intent: "Convert warm intent into a sales conversation",
+    channels: ["LinkedIn", "Meta", "YouTube", "Reddit", "TikTok"],
+    channelType: "Paid Social — Retargeting",
+    description: "Prospects who've engaged with AI content across paid social, StackAdapt, or email are now in the retargeting pool. The creative escalates from content-based engagement to direct conversion: calculators and ROI tools establish the business case, Superiority Claims and case studies reinforce the decision, and offer ads with demo incentives push toward a booked meeting. Conversation ads on LinkedIn enable a direct demo request pathway.",
+    assets: [
+      { title: "HRIS ROI Calculator", format: "Interactive Tool", status: "Live", note: "High-intent asset — establishes business case for switching" },
+      { title: "Superiority Claims ads", format: "Static + Video", status: "Live", note: "Why BambooHR wins head-to-head — all retargeting channels" },
+      { title: "Customer case study: AI + HR outcomes", format: "Case Study", status: "Planned", note: "Social proof for AI-engaged audience" },
+      { title: "G2 / review social proof ads", format: "Static", status: "Live", note: "Third-party credibility — LinkedIn and Meta" },
+      { title: "LinkedIn Conversation Ad — demo offer", format: "Conversation Ad", status: "Live", note: "\"See BambooHR AI in action\" — direct demo pathway" },
+      { title: "Offer Ad — demo + incentive", format: "Static Offer Ad", status: "Live", note: "LinkedIn + Meta — demo CTA with incentive to act now" },
+      { title: "Omnipresent reach creative", format: "Video + Static", status: "Live", note: "Always-on retargeting presence across Meta, LI, YouTube" },
+    ],
+    cta: "Book a demo / Start a trial / See pricing",
+    signal: "Demo request → MQL1 → SAO → Closed Won",
+  },
+];
+
+function ContentJourney() {
+  const [active, setActive] = useState(0);
+  const stage = contentStages[active];
+
+  const statusColors2 = { "Live":"#22C55E", "Planned":"#8B90A8", "In Review":"#F59E0B" };
+  const formatColors  = {
+    "Video":"#5B47B8", "Static":"#6B7280", "Video + Static":"#5B47B8",
+    "Ungated Blog":"#14A88D", "OD Webinar":"#0891B2", "Whitepaper":"#7C3AED",
+    "Interactive / OutGrow":"#EC4899", "Static Ad + Landing Page":"#6B7280",
+    "Display — 300x250, 728x90, 160x600":"#0EA5E9", "Native Ad":"#0EA5E9",
+    "Native / Display":"#0EA5E9", "Animated Display":"#0EA5E9",
+    "Broadcast Email":"#3B82F6", "Nurture Email":"#3B82F6",
+    "Interactive Tool":"#F59E0B", "Case Study":"#D97706",
+    "Conversation Ad":"#D97706", "Static Offer Ad":"#D97706",
+    "Native + Display":"#0EA5E9",
+  };
+
+  return (
+    <div>
+      <div style={{ fontSize:13, color:C.muted, lineHeight:1.6, marginBottom:20 }}>
+        A worked example tracing the AI Launch content pack from brand impression to closed deal — showing the specific content, format, and channel at every stage of the prospect's journey.
+      </div>
+
+      {/* Flow strip */}
+      <div style={{ display:"flex", gap:0, marginBottom:24, overflowX:"auto", paddingBottom:8 }}>
+        {contentStages.map((s, i) => (
+          <div key={s.id} style={{ display:"flex", alignItems:"center", flexShrink:0 }}>
+            <button
+              onClick={() => setActive(i)}
+              style={{
+                display:"flex", flexDirection:"column", alignItems:"center", gap:6,
+                padding:"10px 12px", borderRadius:10, cursor:"pointer",
+                background: active===i ? s.color+"22" : "transparent",
+                border: `1.5px solid ${active===i ? s.color : C.border}`,
+                transition:"all 0.15s", minWidth:90,
+              }}
+            >
+              <span style={{ fontSize:20 }}>{s.icon}</span>
+              <span style={{ fontSize:10, fontWeight:700, color: active===i ? s.color : C.muted, textAlign:"center", lineHeight:1.3 }}>{s.phase}</span>
+            </button>
+            {i < contentStages.length-1 && (
+              <div style={{ display:"flex", alignItems:"center", padding:"0 4px", flexShrink:0 }}>
+                <div style={{ width:16, height:1.5, background:C.border }}/>
+                <svg width="6" height="8" viewBox="0 0 6 8" fill="none" style={{ flexShrink:0 }}>
+                  <path d="M0 0L6 4L0 8" stroke={C.border} strokeWidth="1.5" fill="none"/>
+                </svg>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Stage detail card */}
+      <div style={{ background:C.surface, borderRadius:16, border:`1px solid ${stage.color}44`, overflow:"hidden" }}>
+        {/* Header */}
+        <div style={{ background:`linear-gradient(135deg, ${stage.color}22, ${stage.color}06)`, borderBottom:`1px solid ${stage.color}22`, padding:"18px 20px" }}>
+          <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:12, flexWrap:"wrap" }}>
+            <div style={{ display:"flex", gap:12, alignItems:"center" }}>
+              <span style={{ fontSize:28 }}>{stage.icon}</span>
+              <div>
+                <div style={{ fontSize:10, fontWeight:700, color:stage.color, textTransform:"uppercase", letterSpacing:"0.1em", marginBottom:3 }}>
+                  Step {active+1} of {contentStages.length}  ·  {stage.channelType}
+                </div>
+                <div style={{ fontSize:16, fontWeight:800, color:stage.color }}>{stage.phase}</div>
+                <div style={{ fontSize:12, color:C.muted, marginTop:2 }}>{stage.intent}</div>
+              </div>
+            </div>
+            <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
+              {stage.channels.map(ch => (
+                <span key={ch} style={{ fontSize:11, fontWeight:500, color:stage.color, background:stage.color+"15", border:`1px solid ${stage.color}33`, borderRadius:20, padding:"3px 10px" }}>{ch}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div style={{ padding:"18px 18px 24px" }}>
+          {/* Description */}
+          <div style={{ fontSize:13, color:C.text, lineHeight:1.75, padding:"14px 16px", background:C.surfaceLight, borderRadius:10, borderLeft:`3px solid ${stage.color}`, marginBottom:16 }}>
+            {stage.description}
+          </div>
+
+          {/* Signal */}
+          <div style={{ display:"flex", gap:8, alignItems:"flex-start", marginBottom:20, padding:"10px 14px", background:C.tag, borderRadius:8, border:`1px solid ${stage.color}33` }}>
+            <span style={{ fontSize:13, flexShrink:0 }}>⚡</span>
+            <div style={{ fontSize:12, color:C.muted, lineHeight:1.5 }}>
+              <span style={{ color:stage.color, fontWeight:700 }}>Engagement signal: </span>{stage.signal}
+            </div>
+          </div>
+
+          {/* Content assets */}
+          <div style={{ fontSize:11, fontWeight:700, color:C.muted, textTransform:"uppercase", letterSpacing:"0.1em", marginBottom:10 }}>
+            Content Assets ({stage.assets.length})
+          </div>
+          <div style={{ display:"flex", flexDirection:"column", gap:8, marginBottom:18 }}>
+            {stage.assets.map((a, i) => {
+              const sc = statusColors2[a.status] || C.muted;
+              const fc = formatColors[a.format] || "#6B7280";
+              return (
+                <div key={i} style={{ padding:"12px 14px", background:C.surfaceLight, borderRadius:10, borderLeft:`3px solid ${fc}` }}>
+                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", gap:8, marginBottom:6 }}>
+                    <div style={{ fontSize:13, fontWeight:600, color:C.text, lineHeight:1.4 }}>{a.title}</div>
+                    <span style={{ fontSize:10, fontWeight:700, color:sc, background:sc+"18", border:`1px solid ${sc}44`, borderRadius:10, padding:"2px 8px", whiteSpace:"nowrap", flexShrink:0 }}>{a.status}</span>
+                  </div>
+                  <div style={{ display:"flex", gap:6, alignItems:"center", flexWrap:"wrap" }}>
+                    <span style={{ fontSize:11, fontWeight:600, color:fc, background:fc+"15", border:`1px solid ${fc}33`, borderRadius:4, padding:"1px 7px" }}>{a.format}</span>
+                    <span style={{ fontSize:11, color:C.muted }}>{a.note}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* CTA */}
+          <div style={{ display:"flex", gap:8, alignItems:"center", padding:"12px 16px", background:`${stage.color}10`, border:`1px solid ${stage.color}30`, borderRadius:10 }}>
+            <span style={{ fontSize:16, flexShrink:0 }}>👆</span>
+            <div style={{ fontSize:13, color:C.text }}>
+              <span style={{ color:stage.color, fontWeight:700 }}>Primary CTA: </span>{stage.cta}
+            </div>
+          </div>
+
+          {/* Prev / Next */}
+          <div style={{ display:"flex", justifyContent:"space-between", marginTop:20, gap:10 }}>
+            <button
+              onClick={() => setActive(Math.max(0, active-1))}
+              disabled={active===0}
+              style={{ flex:1, padding:"10px", borderRadius:8, border:`1px solid ${C.border}`, background:active===0 ? "transparent" : C.surfaceLight, color:active===0 ? C.border : C.text, fontSize:13, fontWeight:600, cursor:active===0 ? "default" : "pointer" }}
+            >← Previous</button>
+            <button
+              onClick={() => setActive(Math.min(contentStages.length-1, active+1))}
+              disabled={active===contentStages.length-1}
+              style={{ flex:1, padding:"10px", borderRadius:8, border:`1px solid ${active===contentStages.length-1 ? C.border : stage.color}`, background:active===contentStages.length-1 ? "transparent" : stage.color+"22", color:active===contentStages.length-1 ? C.border : stage.color, fontSize:13, fontWeight:600, cursor:active===contentStages.length-1 ? "default" : "pointer" }}
+            >Next →</button>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer note */}
+      <div style={{ marginTop:16, padding:"10px 14px", background:C.surfaceLight, borderRadius:8, border:`1px solid ${C.border}`, fontSize:11, color:C.muted, lineHeight:1.6 }}>
+        📝 <span style={{ color:C.text, fontWeight:600 }}>Note:</span> Asset titles marked <span style={{ color:"#8B90A8", fontWeight:600 }}>Planned</span> are placeholders pending final content from the content team. Update statuses and titles as assets are confirmed.
+      </div>
+    </div>
+  );
+}
+
 // ─── ROOT ─────────────────────────────────────────────────────────────────────
 
 function App() {
@@ -889,10 +1153,11 @@ function App() {
   const stage = stageData.find(s => s.id === activeStage);
 
   const navItems = [
-    { id:"mission", label:"Mission",         icon:"🏆" },
-    { id:"map",     label:"Journey Map",      icon:"🗺️" },
-    { id:"journey", label:"Prospect Journey", icon:"🧭" },
-    { id:"detail",  label:"Stage Detail",     icon:"📋" },
+    { id:"mission",  label:"Mission",          icon:"🏆" },
+    { id:"map",      label:"Journey Map",       icon:"🗺️" },
+    { id:"journey",  label:"Prospect Journey",  icon:"🧭" },
+    { id:"content",  label:"Content Journey",   icon:"🎨" },
+    { id:"detail",   label:"Stage Detail",      icon:"📋" },
   ];
 
   return (
@@ -917,8 +1182,9 @@ function App() {
       </div>
 
       <div style={{ padding:"20px 20px 40px" }}>
-        {view === "mission" && <Mission/>}
-        {view === "journey" && <ProspectJourney/>}
+        {view === "mission"  && <Mission/>}
+        {view === "journey"  && <ProspectJourney/>}
+        {view === "content"  && <ContentJourney/>}
 
         {view === "map" && (
           <div>
