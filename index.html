@@ -15,6 +15,7 @@
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #1A1D2A; }
     ::-webkit-scrollbar-thumb { background: #2E3347; border-radius: 3px; }
+    input::placeholder { color: #8B90A8; }
   </style>
 </head>
 <body>
@@ -93,18 +94,31 @@ const stageData = [
       { type: "Event Registration", objective: "Registration Signups", channels: "Meta & LinkedIn" },
     ],
     content: [
-      { title: "20 Exit Interview Questions", category: "HIRE", type: "Template", intent: "Engage", status: "Live" },
-      { title: "Bad Company Culture: 10 Red Flags and How to Fix It", category: "CULT", type: "PDF", intent: "Attract", status: "Live" },
-      { title: "ChatGPT Prompts for Easier HR", category: "GEN", type: "PDF", intent: "Engage", status: "Live" },
-      { title: "How to Measure Employee Engagement", category: "PERF", type: "Resource", intent: "Engage", status: "Live" },
-      { title: "Employee Handbook Masterclass: What to Refresh for 2026", category: "CULT", type: "OD Webinar", intent: "Engage", status: "Live" },
-      { title: "Turnover Trouble: The Top 3 Reasons Employees Leave", category: "CULT", type: "OD Webinar", intent: "Engage", status: "Live" },
-      { title: "HR Answers YouTube Shorts", category: "GEN", type: "YouTube", intent: "Engage", status: "Live" },
-      { title: "Practical Ways to Manage Stress and Burnout as an HR Pro", category: "CULT", type: "OD Webinar", intent: "Engage", status: "Live" },
-      { title: "Understanding the AI Confidence Illusion", category: "AI", type: "OD Webinar", intent: "Engage", status: "Live" },
-      { title: "How HR Teams Can Earn Employees' Trust", category: "CULT", type: "OD Webinar", intent: "Engage", status: "Live" },
-      { title: "How to Identify—and Correct—Bad Boss Behaviors in the Workplace", category: "CULT", type: "OD Webinar", intent: "Engage", status: "Live" },
-      { title: "Is Your Workplace Change Resistant? How to Get Buy-In", category: "CULT", type: "OD Webinar", intent: "Engage", status: "Live" },
+      // ── LinkedIn — Live before H2 (evergreen) ──────────────────────────────
+      { title: "Employee Performance Metrics You Need to Track", category: "PERF", type: "Resource", intent: "Engage", status: "Live", channels: ["LinkedIn"] },
+      { title: "2026 State of Hiring Report", category: "HIRE", type: "Report", intent: "Attract", status: "Live", channels: ["LinkedIn"] },
+      { title: "ChatGPT Prompts for Easier HR", category: "AI", type: "PDF", intent: "Engage", status: "Live", channels: ["LinkedIn", "Reddit (July)"] },
+      { title: "Big Wins for New HR Leaders: Your First 90 Days in a New Role", category: "CULT", type: "Guide", intent: "Engage", status: "Live", channels: ["LinkedIn"] },
+      { title: "5 Onboarding Mistakes to Avoid", category: "ONBD", type: "Resource", intent: "Engage", status: "Live", channels: ["LinkedIn"] },
+      { title: "AI Roadmap for HR Teams", category: "AI", type: "Guide", intent: "Engage", status: "Live", channels: ["LinkedIn"] },
+      { title: "Change Management Playbook", category: "CULT", type: "Playbook", intent: "Engage", status: "Live", channels: ["LinkedIn"] },
+      { title: "Are Payroll Errors Costing You Big Time?", category: "PAY", type: "Resource", intent: "Attract", status: "Live", channels: ["LinkedIn"] },
+      // ── LinkedIn — Going live July ─────────────────────────────────────────
+      { title: "Guide to HR Automation", category: "AI", type: "Guide", intent: "Engage", status: "July", channels: ["LinkedIn"] },
+      { title: "Template: 20 Exit Interview Questions", category: "HIRE", type: "Template", intent: "Engage", status: "July", channels: ["LinkedIn"] },
+      { title: "AI Launch Content Pack", category: "AI", type: "Content Pack", intent: "Engage", status: "July", channels: ["LinkedIn"] },
+      // ── Reddit — Going live July ───────────────────────────────────────────
+      { title: "Bad Company Culture: 10 Red Flags and How to Fix It", category: "CULT", type: "PDF", intent: "Attract", status: "July", channels: ["Reddit"] },
+      // ── Existing (webinars + other) ────────────────────────────────────────
+      { title: "How to Measure Employee Engagement", category: "PERF", type: "OD Webinar", intent: "Engage", status: "Live", channels: ["LinkedIn"] },
+      { title: "Employee Handbook Masterclass: What to Refresh for 2026", category: "CULT", type: "OD Webinar", intent: "Engage", status: "Live", channels: ["LinkedIn"] },
+      { title: "Turnover Trouble: The Top 3 Reasons Employees Leave", category: "CULT", type: "OD Webinar", intent: "Engage", status: "Live", channels: ["LinkedIn"] },
+      { title: "Practical Ways to Manage Stress and Burnout as an HR Pro", category: "CULT", type: "OD Webinar", intent: "Engage", status: "Live", channels: ["LinkedIn"] },
+      { title: "Understanding the AI Confidence Illusion", category: "AI", type: "OD Webinar", intent: "Engage", status: "Live", channels: ["LinkedIn"] },
+      { title: "How HR Teams Can Earn Employees' Trust", category: "CULT", type: "OD Webinar", intent: "Engage", status: "Live", channels: ["LinkedIn"] },
+      { title: "How to Identify—and Correct—Bad Boss Behaviors in the Workplace", category: "CULT", type: "OD Webinar", intent: "Engage", status: "Live", channels: ["LinkedIn"] },
+      { title: "Is Your Workplace Change Resistant? How to Get Buy-In", category: "CULT", type: "OD Webinar", intent: "Engage", status: "Live", channels: ["LinkedIn"] },
+      { title: "HR Answers YouTube Shorts", category: "GEN", type: "YouTube", intent: "Engage", status: "Live", channels: ["LinkedIn"] },
     ],
     note: "Broad Funnel and CXO Funnel run in parallel. CXO: ungated content, blog posts, LI followers, event registration. Themed Content Packs layer across both tracks.",
     packs: [
@@ -259,8 +273,8 @@ const stageData = [
   },
 ];
 
-const catColors = { HIRE:"#7C3AED", CULT:"#DC2626", GEN:"#0891B2", PERF:"#059669", AI:"#EC4899" };
-const statusColors = { "Live":"#22C55E", "In Review":"#F59E0B", "Planned":"#8B90A8" };
+const catColors = { HIRE:"#7C3AED", CULT:"#DC2626", GEN:"#0891B2", PERF:"#059669", AI:"#EC4899", ONBD:"#F59E0B", PAY:"#D97706" };
+const statusColors = { "Live":"#22C55E", "July":"#F59E0B", "In Review":"#8B5CF6", "Planned":"#8B90A8" };
 
 // ─── SMALL COMPONENTS ─────────────────────────────────────────────────────────
 
@@ -423,6 +437,73 @@ function WebMap({ onNodeClick }) {
   );
 }
 
+// ─── CONTENT TAB ──────────────────────────────────────────────────────────────
+
+function ContentTab({ content }) {
+  const [filter, setFilter] = useState("All");
+
+  const allChannels = ["All", "LinkedIn", "Reddit"];
+  const filtered = filter === "All" ? content : content.filter(i => i.channels?.some(c => c.startsWith(filter)));
+
+  const liveCt  = content.filter(i => i.status === "Live").length;
+  const julyCt  = content.filter(i => i.status === "July").length;
+
+  return (
+    <div>
+      {/* Summary row */}
+      <div style={{ display:"flex", gap:8, marginBottom:14, flexWrap:"wrap" }}>
+        {[
+          { label:`${liveCt} Live`, color:statusColors["Live"] },
+          { label:`${julyCt} Going live in July`, color:statusColors["July"] },
+        ].map(s => (
+          <span key={s.label} style={{ display:"flex", alignItems:"center", gap:5, fontSize:12, fontWeight:600, color:s.color, background:s.color+"15", border:`1px solid ${s.color}33`, borderRadius:20, padding:"3px 10px" }}>
+            <span style={{ width:7, height:7, borderRadius:"50%", background:s.color, display:"inline-block" }}/>{s.label}
+          </span>
+        ))}
+      </div>
+
+      {/* Channel filter */}
+      <div style={{ display:"flex", gap:6, marginBottom:14 }}>
+        {allChannels.map(ch => (
+          <button key={ch} onClick={() => setFilter(ch)} style={{ padding:"5px 12px", borderRadius:20, border:`1.5px solid ${filter===ch ? C.mid : C.border}`, background:filter===ch ? C.mid+"22" : "transparent", color:filter===ch ? C.mid : C.muted, fontSize:12, fontWeight:600, cursor:"pointer" }}>
+            {ch}{ch !== "All" && ` (${content.filter(i => i.channels?.some(c => c.startsWith(ch))).length})`}
+          </button>
+        ))}
+      </div>
+
+      {/* Asset list */}
+      {filtered.map(item => {
+        const cc = catColors[item.category] || "#888";
+        const sc = statusColors[item.status] || C.muted;
+        const statusLabel = item.status === "July" ? "Live in July" : item.status;
+        return (
+          <div key={item.title} style={{ padding:"10px 12px", background:C.tag, borderRadius:8, marginBottom:7, borderLeft:`3px solid ${cc}` }}>
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", gap:8, marginBottom:6 }}>
+              <div style={{ fontSize:13, color:C.text, fontWeight:500, lineHeight:1.4 }}>{item.title}</div>
+              <span style={{ fontSize:10, fontWeight:700, color:sc, background:sc+"18", border:`1px solid ${sc}44`, borderRadius:10, padding:"2px 8px", whiteSpace:"nowrap", flexShrink:0 }}>{statusLabel}</span>
+            </div>
+            <div style={{ display:"flex", flexWrap:"wrap", gap:4, alignItems:"center" }}>
+              <Tag label={item.category} color={cc}/>
+              <Tag label={item.type} color="#888"/>
+              <Tag label={item.intent} color="#666"/>
+              {item.channels?.map(ch => {
+                const chColor = ch.startsWith("LinkedIn") ? "#0A66C2" : ch.startsWith("Reddit") ? "#FF4500" : C.muted;
+                return <Tag key={ch} label={ch} color={chColor}/>;
+              })}
+            </div>
+          </div>
+        );
+      })}
+
+      {/* Category legend */}
+      <div style={{ marginTop:12, display:"flex", gap:6, flexWrap:"wrap", alignItems:"center" }}>
+        {Object.entries(catColors).map(([cat, color]) => <Tag key={cat} label={cat} color={color}/>)}
+        <span style={{ fontSize:11, color:C.muted }}>Category codes</span>
+      </div>
+    </div>
+  );
+}
+
 // ─── STAGE DETAIL ─────────────────────────────────────────────────────────────
 
 function StageDetail({ stage }) {
@@ -485,34 +566,7 @@ function StageDetail({ stage }) {
         </>}
 
         {tab === "content" && stage.content?.length > 0 && (
-          <div>
-            <div style={{ display:"flex", gap:6, flexWrap:"wrap", marginBottom:12 }}>
-              {Object.entries(statusColors).map(([s, c]) => (
-                <span key={s} style={{ display:"flex", alignItems:"center", gap:5, fontSize:11, color:C.muted }}>
-                  <span style={{ width:8, height:8, borderRadius:"50%", background:c, display:"inline-block" }}/>{s}
-                </span>
-              ))}
-            </div>
-            {stage.content.map(item => {
-              const cc = catColors[item.category] || "#888";
-              const sc = statusColors[item.status] || C.muted;
-              return (
-                <div key={item.title} style={{ display:"flex", alignItems:"flex-start", gap:8, padding:"8px 10px", background:C.tag, borderRadius:8, marginBottom:6, borderLeft:`3px solid ${cc}` }}>
-                  <div style={{ flex:1 }}>
-                    <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", gap:8 }}>
-                      <div style={{ fontSize:13, color:C.text, fontWeight:500 }}>{item.title}</div>
-                      {item.status && <span style={{ fontSize:10, fontWeight:700, color:sc, background:sc+"18", border:`1px solid ${sc}44`, borderRadius:10, padding:"1px 7px", whiteSpace:"nowrap", flexShrink:0 }}>{item.status}</span>}
-                    </div>
-                    <div style={{ marginTop:4 }}><Tag label={item.category} color={cc}/><Tag label={item.type} color="#888"/><Tag label={item.intent} color="#666"/></div>
-                  </div>
-                </div>
-              );
-            })}
-            <div style={{ marginTop:8, display:"flex", gap:8, flexWrap:"wrap" }}>
-              {Object.entries(catColors).map(([cat, color]) => <Tag key={cat} label={cat} color={color}/>)}
-              <span style={{ fontSize:11, color:C.muted, alignSelf:"center" }}>Category codes</span>
-            </div>
-          </div>
+          <ContentTab content={stage.content}/>
         )}
 
         {tab === "tiers" && stage.tiers && (
@@ -1139,6 +1193,193 @@ function ContentJourney() {
   );
 }
 
+// ─── CONTENT LIBRARY ──────────────────────────────────────────────────────────
+
+// Flatten all content assets across all stages into one indexed list
+const allLibraryAssets = [
+  // ── Mid-Funnel Paid Social ─────────────────────────────────────────────────
+  { title:"Employee Performance Metrics You Need to Track",           category:"PERF", type:"Resource",     status:"Live",  channels:["LinkedIn"],              stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social" },
+  { title:"2026 State of Hiring Report",                              category:"HIRE", type:"Report",       status:"Live",  channels:["LinkedIn"],              stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social" },
+  { title:"ChatGPT Prompts for Easier HR",                            category:"AI",   type:"PDF",          status:"Live",  channels:["LinkedIn","Reddit"],      stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social", redditNote:"Reddit live in July" },
+  { title:"Big Wins for New HR Leaders: Your First 90 Days",         category:"CULT", type:"Guide",        status:"Live",  channels:["LinkedIn"],              stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social" },
+  { title:"5 Onboarding Mistakes to Avoid",                           category:"ONBD", type:"Resource",     status:"Live",  channels:["LinkedIn"],              stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social" },
+  { title:"AI Roadmap for HR Teams",                                  category:"AI",   type:"Guide",        status:"Live",  channels:["LinkedIn"],              stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social" },
+  { title:"Change Management Playbook",                               category:"CULT", type:"Playbook",     status:"Live",  channels:["LinkedIn"],              stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social" },
+  { title:"Are Payroll Errors Costing You Big Time?",                 category:"PAY",  type:"Resource",     status:"Live",  channels:["LinkedIn"],              stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social" },
+  { title:"How to Measure Employee Engagement",                       category:"PERF", type:"OD Webinar",   status:"Live",  channels:["LinkedIn"],              stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social" },
+  { title:"Employee Handbook Masterclass: What to Refresh for 2026", category:"CULT", type:"OD Webinar",   status:"Live",  channels:["LinkedIn"],              stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social" },
+  { title:"Turnover Trouble: The Top 3 Reasons Employees Leave",     category:"CULT", type:"OD Webinar",   status:"Live",  channels:["LinkedIn"],              stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social" },
+  { title:"Practical Ways to Manage Stress and Burnout as an HR Pro",category:"CULT", type:"OD Webinar",   status:"Live",  channels:["LinkedIn"],              stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social" },
+  { title:"Understanding the AI Confidence Illusion",                 category:"AI",   type:"OD Webinar",   status:"Live",  channels:["LinkedIn"],              stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social" },
+  { title:"How HR Teams Can Earn Employees' Trust",                   category:"CULT", type:"OD Webinar",   status:"Live",  channels:["LinkedIn"],              stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social" },
+  { title:"How to Identify—and Correct—Bad Boss Behaviors",          category:"CULT", type:"OD Webinar",   status:"Live",  channels:["LinkedIn"],              stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social" },
+  { title:"Is Your Workplace Change Resistant? How to Get Buy-In",   category:"CULT", type:"OD Webinar",   status:"Live",  channels:["LinkedIn"],              stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social" },
+  { title:"HR Answers YouTube Shorts",                                category:"GEN",  type:"YouTube",      status:"Live",  channels:["LinkedIn"],              stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social" },
+  // ── LinkedIn — Going live July ─────────────────────────────────────────────
+  { title:"Guide to HR Automation",                                   category:"AI",   type:"Guide",        status:"July",  channels:["LinkedIn"],              stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social" },
+  { title:"Template: 20 Exit Interview Questions",                    category:"HIRE", type:"Template",     status:"July",  channels:["LinkedIn"],              stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social" },
+  { title:"AI Launch Content Pack",                                   category:"AI",   type:"Content Pack", status:"July",  channels:["LinkedIn"],              stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social" },
+  // ── Reddit — Going live July ───────────────────────────────────────────────
+  { title:"Bad Company Culture: 10 Red Flags and How to Fix It",     category:"CULT", type:"PDF",          status:"July",  channels:["Reddit"],                stage:"midfunnel", journeyStage:"Mid-Funnel Paid Social" },
+  // ── Retargeting ───────────────────────────────────────────────────────────
+  { title:"HRIS ROI Calculator",                                      category:"PERF", type:"Interactive",  status:"Live",  channels:["LinkedIn","Meta"],       stage:"retargeting", journeyStage:"Retargeting" },
+  { title:"Superiority Claims ads",                                   category:"GEN",  type:"Static+Video", status:"Live",  channels:["LinkedIn","Meta","Reddit","TikTok"], stage:"retargeting", journeyStage:"Retargeting" },
+  { title:"G2 / Review Social Proof ads",                             category:"GEN",  type:"Static",       status:"Live",  channels:["LinkedIn","Meta"],       stage:"retargeting", journeyStage:"Retargeting" },
+  { title:"LinkedIn Conversation Ad — demo offer",                    category:"GEN",  type:"Convo Ad",     status:"Live",  channels:["LinkedIn"],              stage:"retargeting", journeyStage:"Retargeting" },
+  { title:"Offer Ad — demo + incentive",                              category:"GEN",  type:"Offer Ad",     status:"Live",  channels:["LinkedIn","Meta"],       stage:"retargeting", journeyStage:"Retargeting" },
+  // ── Email Nurture ─────────────────────────────────────────────────────────
+  { title:"AI Nurture — 6 email sequence",                            category:"AI",   type:"Email Nurture",status:"Live",  channels:["Email"],                 stage:"email", journeyStage:"Email Nurture" },
+  { title:"Employee Experience Nurture — 7 emails",                   category:"CULT", type:"Email Nurture",status:"Live",  channels:["Email"],                 stage:"email", journeyStage:"Email Nurture" },
+  { title:"Payroll, Time & Benefits Nurture — 7 emails",              category:"PAY",  type:"Email Nurture",status:"Live",  channels:["Email"],                 stage:"email", journeyStage:"Email Nurture" },
+  { title:"Onboarding / Offboarding Nurture — 6 emails",             category:"ONBD", type:"Email Nurture",status:"Live",  channels:["Email"],                 stage:"email", journeyStage:"Email Nurture" },
+  { title:"HR Insights Nurture — 6 emails",                           category:"PERF", type:"Email Nurture",status:"Live",  channels:["Email"],                 stage:"email", journeyStage:"Email Nurture" },
+  { title:"New Data & Reporting Nurture — 6 emails",                  category:"PERF", type:"Email Nurture",status:"Live",  channels:["Email"],                 stage:"email", journeyStage:"Email Nurture" },
+  { title:"Hiring Nurture — 6 emails",                                category:"HIRE", type:"Email Nurture",status:"Live",  channels:["Email"],                 stage:"email", journeyStage:"Email Nurture" },
+  { title:"Post-MQL1 Nurture — 26 emails",                            category:"GEN",  type:"Email Nurture",status:"Live",  channels:["Email"],                 stage:"email", journeyStage:"Email Nurture" },
+];
+
+const stageColors = {
+  midfunnel:  C.mid,
+  retargeting: C.rtg,
+  email:       C.email,
+};
+
+const channelColors = {
+  LinkedIn: "#0A66C2",
+  Reddit:   "#FF4500",
+  Meta:     "#1877F2",
+  TikTok:   "#010101",
+  Email:    C.email,
+  YouTube:  "#FF0000",
+};
+
+function ContentLibrary() {
+  const [statusFilter,  setStatusFilter]  = useState("All");
+  const [channelFilter, setChannelFilter] = useState("All");
+  const [stageFilter,   setStageFilter]   = useState("All");
+  const [search,        setSearch]        = useState("");
+
+  const statuses  = ["All","Live","July"];
+  const channels  = ["All","LinkedIn","Reddit","Meta","Email"];
+  const stages    = ["All","Mid-Funnel Paid Social","Retargeting","Email Nurture"];
+
+  const filtered = allLibraryAssets.filter(a => {
+    const matchStatus  = statusFilter  === "All" || a.status === statusFilter;
+    const matchChannel = channelFilter === "All" || a.channels.some(c => c === channelFilter);
+    const matchStage   = stageFilter   === "All" || a.journeyStage === stageFilter;
+    const matchSearch  = search === "" || a.title.toLowerCase().includes(search.toLowerCase());
+    return matchStatus && matchChannel && matchStage && matchSearch;
+  });
+
+  const liveCt = allLibraryAssets.filter(a => a.status === "Live").length;
+  const julyCt = allLibraryAssets.filter(a => a.status === "July").length;
+
+  function FilterRow({ label, options, value, onChange }) {
+    return (
+      <div style={{ marginBottom:10 }}>
+        <div style={{ fontSize:10, fontWeight:700, color:C.muted, textTransform:"uppercase", letterSpacing:"0.08em", marginBottom:6 }}>{label}</div>
+        <div style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
+          {options.map(o => (
+            <button key={o} onClick={() => onChange(o)} style={{ padding:"4px 12px", borderRadius:20, border:`1.5px solid ${value===o ? C.gold : C.border}`, background:value===o ? C.gold+"22" : "transparent", color:value===o ? C.gold : C.muted, fontSize:12, fontWeight:600, cursor:"pointer" }}>
+              {o}
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      {/* Header */}
+      <div style={{ marginBottom:20 }}>
+        <div style={{ fontSize:13, color:C.muted, lineHeight:1.6, marginBottom:12 }}>
+          Every content asset across the mid-funnel motion — where it lives in the journey, which channels it's on, and whether it's live.
+        </div>
+        {/* Summary badges */}
+        <div style={{ display:"flex", gap:8, flexWrap:"wrap", marginBottom:16 }}>
+          {[
+            { label:`${allLibraryAssets.length} total assets`, color:C.muted },
+            { label:`${liveCt} live now`,                      color:statusColors["Live"] },
+            { label:`${julyCt} going live in July`,            color:statusColors["July"] },
+          ].map(s => (
+            <span key={s.label} style={{ display:"flex", alignItems:"center", gap:5, fontSize:12, fontWeight:600, color:s.color, background:s.color+"15", border:`1px solid ${s.color}33`, borderRadius:20, padding:"4px 12px" }}>
+              {s.label}
+            </span>
+          ))}
+        </div>
+
+        {/* Search */}
+        <input
+          type="text" placeholder="Search assets..." value={search}
+          onChange={e => setSearch(e.target.value)}
+          style={{ width:"100%", padding:"10px 14px", borderRadius:10, border:`1px solid ${C.border}`, background:C.surfaceLight, color:C.text, fontSize:13, outline:"none", marginBottom:14 }}
+        />
+
+        {/* Filters */}
+        <div style={{ background:C.surfaceLight, borderRadius:12, padding:"14px 16px", border:`1px solid ${C.border}` }}>
+          <FilterRow label="Status"       options={statuses} value={statusFilter}  onChange={setStatusFilter}/>
+          <FilterRow label="Channel"      options={channels} value={channelFilter} onChange={setChannelFilter}/>
+          <FilterRow label="Journey Stage" options={stages}  value={stageFilter}   onChange={setStageFilter}/>
+        </div>
+      </div>
+
+      {/* Results count */}
+      <div style={{ fontSize:12, color:C.muted, marginBottom:12 }}>
+        Showing <span style={{ color:C.text, fontWeight:600 }}>{filtered.length}</span> of {allLibraryAssets.length} assets
+      </div>
+
+      {/* Asset list */}
+      {filtered.length === 0 ? (
+        <div style={{ padding:"24px", textAlign:"center", color:C.muted, fontSize:13 }}>No assets match your filters.</div>
+      ) : (
+        <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+          {filtered.map((a, i) => {
+            const cc  = catColors[a.category] || "#888";
+            const sc  = statusColors[a.status] || C.muted;
+            const stc = stageColors[a.stage]   || C.muted;
+            const statusLabel = a.status === "July" ? "Live in July" : a.status;
+            return (
+              <div key={i} style={{ padding:"12px 14px", background:C.surface, borderRadius:10, border:`1px solid ${C.border}`, borderLeft:`3px solid ${cc}` }}>
+                {/* Title row */}
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", gap:10, marginBottom:8 }}>
+                  <div style={{ fontSize:13, fontWeight:600, color:C.text, lineHeight:1.4 }}>{a.title}</div>
+                  <span style={{ fontSize:10, fontWeight:700, color:sc, background:sc+"18", border:`1px solid ${sc}44`, borderRadius:10, padding:"2px 8px", whiteSpace:"nowrap", flexShrink:0 }}>{statusLabel}</span>
+                </div>
+                {/* Meta row */}
+                <div style={{ display:"flex", flexWrap:"wrap", gap:5, alignItems:"center" }}>
+                  {/* Journey stage */}
+                  <span style={{ fontSize:11, fontWeight:600, color:stc, background:stc+"15", border:`1px solid ${stc}33`, borderRadius:4, padding:"1px 7px" }}>{a.journeyStage}</span>
+                  {/* Category */}
+                  <span style={{ fontSize:11, fontWeight:600, color:cc, background:cc+"18", border:`1px solid ${cc}33`, borderRadius:4, padding:"1px 7px" }}>{a.category}</span>
+                  {/* Type */}
+                  <span style={{ fontSize:11, color:C.muted, background:C.tag, border:`1px solid ${C.border}`, borderRadius:4, padding:"1px 7px" }}>{a.type}</span>
+                  {/* Channels */}
+                  {a.channels.map(ch => {
+                    const chc = channelColors[ch] || C.muted;
+                    return <span key={ch} style={{ fontSize:11, fontWeight:600, color:chc, background:chc+"15", border:`1px solid ${chc}33`, borderRadius:4, padding:"1px 7px" }}>{ch}</span>;
+                  })}
+                  {a.redditNote && <span style={{ fontSize:10, color:C.muted, fontStyle:"italic" }}>({a.redditNote})</span>}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Category legend */}
+      <div style={{ marginTop:20, padding:"12px 14px", background:C.surfaceLight, borderRadius:10, border:`1px solid ${C.border}` }}>
+        <div style={{ fontSize:10, fontWeight:700, color:C.muted, textTransform:"uppercase", letterSpacing:"0.08em", marginBottom:8 }}>Category codes</div>
+        <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
+          {Object.entries(catColors).map(([cat, color]) => (
+            <span key={cat} style={{ fontSize:11, fontWeight:600, color, background:color+"18", border:`1px solid ${color}33`, borderRadius:4, padding:"2px 8px" }}>{cat}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── ROOT ─────────────────────────────────────────────────────────────────────
 
 function App() {
@@ -1156,6 +1397,7 @@ function App() {
     { id:"mission",  label:"Mission",          icon:"🏆" },
     { id:"map",      label:"Journey Map",       icon:"🗺️" },
     { id:"journey",  label:"Prospect Journey",  icon:"🧭" },
+    { id:"library",  label:"Content Library",   icon:"📚" },
     { id:"content",  label:"Content Journey",   icon:"🎨" },
     { id:"detail",   label:"Stage Detail",      icon:"📋" },
   ];
@@ -1185,6 +1427,7 @@ function App() {
         {view === "mission"  && <Mission/>}
         {view === "journey"  && <ProspectJourney/>}
         {view === "content"  && <ContentJourney/>}
+        {view === "library"  && <ContentLibrary/>}
 
         {view === "map" && (
           <div>
